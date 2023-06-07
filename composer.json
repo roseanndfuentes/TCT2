@@ -12,7 +12,8 @@
         "laravel/tinker": "^2.8",
         "livewire/livewire": "^2.12",
         "spatie/laravel-permission": "^5.10",
-        "wireui/wireui": "^1.17"
+        "wireui/wireui": "^1.17",
+        "x7media/laravel-planetscale": "^1.1"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.8",

@@ -51,6 +51,9 @@
             <div>
                 @include('includes.modals._task-edit')
             </div>
+            <div>
+                @include('includes.modals._task-show')
+            </div>
         </div>
     @else
         @include('includes.partials._select-company-dropdown')

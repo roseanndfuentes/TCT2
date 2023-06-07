@@ -2,9 +2,11 @@
 
 namespace App\Http\Livewire\Billings;
 
-use App\Models\Company;
 use App\Models\Form;
+use App\Models\Company;
 use Livewire\Component;
+use App\Models\Category;
+use App\Models\Task;
 use WireUi\Traits\Actions;
 
 class Index extends Component
@@ -39,6 +41,10 @@ class Index extends Component
 
     public $forms =[];
 
+    public $categories =[];
+
+    public $tasks =[];
+
     
     public function mount()
     {
@@ -50,9 +56,14 @@ class Index extends Component
         if ($this->c_id) {
             $this->company = Company::find($this->c_id);
             if ($this->company) {
+                $this->tasks = Task::whereHas('segment', function ($query) {
+                    $query->where('company_id', $this->company->id);
+                })->get();
                 $this->getSubmissionDetails();
             }
         }
+
+        $this->categories = Category::all();
     }
     public function render()
     {
@@ -63,11 +74,15 @@ class Index extends Component
     {
        if(!$this->c_id){
           $this->dialog()->error('Please select a company');
+          
           return;
        }
 
        $this->company = Company::find($this->c_id);
        if ($this->company) {
+        $this->tasks = Task::whereHas('segment', function ($query) {
+            $query->where('company_id', $this->company->id);
+        })->get();
             $this->getSubmissionDetails();
        }
     }
@@ -82,7 +97,7 @@ class Index extends Component
             ->get();
         $per_review = $this->forms->where('task.review_starter', 1)->count();
 
-        $dvr_count = $this->forms->where('initial_review',1)->count();
+        $dvr_count = $this->forms->where('initial_review',0)->count();
     
         $this->data['per_company_in_review']  = $per_review;
         $this->data['dvr_one'] = $dvr_count > 0 && $dvr_count <= 60 ? $dvr_count : 0;

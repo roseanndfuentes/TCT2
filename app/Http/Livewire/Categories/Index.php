@@ -126,7 +126,6 @@ class Index extends Component
             'categories' => Category::query()
                 ->when($this->search != '', fn ($query) => $query->where('name', 'like', "%{$this->search}%"))
                 ->with('creator')
-                ->withCount('companies')
                 ->paginate(10)
         ]);
     }

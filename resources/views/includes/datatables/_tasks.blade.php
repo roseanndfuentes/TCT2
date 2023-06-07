@@ -1,12 +1,4 @@
-<x-tct.table :headers="[
-    'Task ',
-    'Segment',
-    'Ref (Document Validation)',
-    'Ref (Per Company In Review)',
-    'Ref (Start Review)',
-    'Category',
-    '',
-]">
+<x-tct.table :headers="['Task ', 'Segment', 'Category', '']">
     @forelse ($tasks as $task)
         <tr>
             <x-tct.tcell>
@@ -15,7 +7,7 @@
             <x-tct.tcell>
                 {{ $task->segment->name }}
             </x-tct.tcell>
-            <x-tct.tcell>
+            {{-- <x-tct.tcell>
                 @if ($task->is_document_review_reference)
                     <x-badge positive>Yes</x-badge>
                 @else
@@ -35,13 +27,14 @@
                 @else
                     <x-badge>No</x-badge>
                 @endif
-            </x-tct.tcell>
+            </x-tct.tcell> --}}
             <x-tct.tcell>
                 {{ $task->category->name }}
             </x-tct.tcell>
             <x-tct.tcell>
                 <div class="flex space-x-2 items-center justify-end">
                     <x-button wire:click="editTask({{ $task->id }})" flat icon="pencil" warning label="Edit" />
+                    <x-button wire:click="showTask({{ $task->id }})" flat icon="eye" gray label="View Details" />
                     <x-button href="{{ route('task-questions', ['id' => $task->id]) }}" flat icon="clipboard-list" primary
                         label="Questions" />
                 </div>
@@ -49,7 +42,7 @@
         </tr>
     @empty
         <tr>
-            <x-tct.empty-table colspan="7" />
+            <x-tct.empty-table colspan="4" />
         </tr>
     @endforelse
     <x-slot:footer>

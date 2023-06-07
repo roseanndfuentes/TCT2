@@ -1,4 +1,4 @@
-<div class="space-y-4">
+<div id="#top" class="space-y-4">
     @include('includes.partials._form-details')
     <div class="flex space-x-2">
         @if ($form->isInProgress())
@@ -68,5 +68,12 @@
                 </x-card>
             </div>
         @endforeach
+    </div>
+    <div class="pt-2">
+        <a href="#top">
+            <x-secondary-button>
+                Back to top
+            </x-secondary-button>
+        </a>
     </div>
 </div>

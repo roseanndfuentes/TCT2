@@ -23,6 +23,8 @@ class Index extends Component
     public $companies = [];
     public $categories = [];
     public $editableTask = null;
+    public $showTask = null;
+
 
 
 
@@ -30,6 +32,7 @@ class Index extends Component
     public $showCreateSegmentModal = false;
     public $showCreateTaskModal = false;
     public $showEditTaskModal = false;
+    public $showTaskModal = false;
 
 
     // forms
@@ -182,6 +185,28 @@ class Index extends Component
         $this->companies = Company::all();
         $this->categories = Category::all();
     }
+   
+
+    private function loadCompany()
+    {
+        return $this->c_id != "" ? Company::find($this->c_id) : null;
+    }
+
+    public function loadSegments()
+    {
+        return $this->company != null ? $this->company->segments : [];
+    }
+
+    public function showTask($id)
+    {
+        if (auth()->user()->cannot('view company tasks')) {
+            $this->notification()->error('You are not authorized to view tasks');
+            return;
+        }
+        $this->showTask = Task::find($id);
+        $this->showTaskModal = true;
+    }
+
     public function render()
     {
         $this->company = $this->loadCompany();
@@ -197,15 +222,5 @@ class Index extends Component
                     ->with(['segment','creator','category'])
                     ->paginate(10) : [],
         ]);
-    }
-
-    private function loadCompany()
-    {
-        return $this->c_id != "" ? Company::find($this->c_id) : null;
-    }
-
-    public function loadSegments()
-    {
-        return $this->company != null ? $this->company->segments : [];
     }
 }

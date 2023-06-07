@@ -12,6 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('forms', function (Blueprint $table) {
+
             $table->id();
             $table->string('status')->nullable();
             $table->string('record_number')->nullable();
@@ -28,7 +29,7 @@ return new class extends Migration
             $table->string('pause_id')->nullable();
             $table->timestamp('last_pause_time')->nullable();
             $table->timestamp('last_resume_time')->nullable();
-            $table->boolean('initial_review')->default(false);
+            $table->boolean('initial_review')->default(true);
             $table->string('document_count')->default(0);
             $table->string('unit_count')->default(0);
             $table->timestamps();

@@ -12,6 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('segments', function (Blueprint $table) {
+
             $table->id();
             $table->unsignedBigInteger('company_id');
             $table->string('name');

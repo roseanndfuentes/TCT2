@@ -1,5 +1,5 @@
 @props(['name' => '', 'total' => ''])
-<tr class="bg-gray-50">
+<tr class="">
     <td class="py-2 px-4 font-bold text-indigo-700  border border-gray-200">
         {{ $name }}
     </td>

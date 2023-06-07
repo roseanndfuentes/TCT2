@@ -8,8 +8,7 @@
         <table class="min-w-full bg-white border rounded-lg">
             @include('includes.partials.billing-report._main-header')
             <tbody>
-                <x-report-sub-header name="OaaS Monthly Minimum Fee"
-                    total="{{ number_format($company->minimum_consumable_fee, 2) }}" />
+                <x-report-sub-header name="OaaS Monthly Minimum Fee" total="" />
                 <tr>
                     <td class="py-2 px-4 font-bold text-gray-700 border border-gray-200">
                         <span class="ml-3">
@@ -26,33 +25,73 @@
                     <td class="py-2 px-4 text-gray-500 border border-gray-200">
                     </td>
                 </tr>
+                <x-category-total total="{{ number_format($company->minimum_consumable_fee, 2) }}" />
                 @include('includes.partials.billing-report._scaper')
-                <x-report-sub-header name="Basic Company Due Diligence" total="100.00" />
+                <x-report-sub-header name="Basic Company Due Diligence" total="" />
                 @include('includes.partials.billing-report._basic-due-diligence')
+                <x-category-total
+                    total="{{ number_format($data['per_company_in_review'] * $company->per_company_in_review_amount + $data['dvr_one'] * $company->dvr_one + $data['dvr_two'] * $company->dvr_two + $data['dvr_three'] * $company->dvr_three, 2) }}" />
                 @php
-                    $groupForms = $forms->groupBy('category_id');
+                    $companyTasks = $tasks->groupBy('category_id');
                 @endphp
-                @foreach ($groupForms as $key => $forms)
-                    <x-report-sub-header name="OaaS Monthly Minimum Fee "
-                        total="{{ number_format($company->minimum_consumable_fee, 2) }}" />
-                    @foreach ($forms as $form)
+                @foreach ($companyTasks as $key => $companyTask)
+                    @php
+                        $total = 0;
+                        $category = $categories->find($key);
+                    @endphp
+                    <x-report-sub-header name="{{ $category->name }}" total="" />
+                    @if ($category->formula === 'per_unit_in_performed_task')
                         <tr>
                             <td class="py-2 px-4 font-bold text-gray-700 border border-gray-200">
                                 <span class="ml-3">
-                                    {{ $form->task->name }}
+                                    per hour (Note: 1 unit = 10 minutes work)
                                 </span>
                             </td>
                             <td class="py-2 px-4 text-gray-500 border border-gray-200">
-                                {{ number_format($company->minimum_consumable_fee, 2) }}
+                                25.00
+                            </td>
+                            <td colspan="3" class="py-2 px-4 text-gray-500 border border-gray-200">
+                            </td>
+                        </tr>
+                    @endif
+                    @foreach ($companyTask as $task)
+                        <tr>
+                            <td class="py-2 px-4 font-bold text-gray-700 border border-gray-200">
+                                <span class="ml-3">
+                                    {{ $task->name }}
+                                </span>
                             </td>
                             <td class="py-2 px-4 text-gray-500 border border-gray-200">
+                                @if ($category->formula === 'per_performed_task')
+                                    {{ number_format($task->amount, 2) }}
+                                @endif
                             </td>
                             <td class="py-2 px-4 text-gray-500 border border-gray-200">
+                                {{ $forms->where('task_id', $task->id)->count() }}
+                            </td>
+                            <td class="py-2 px-4 text-gray-500 border border-gray-200">
+                                @php
+                                    $total_unit_count = $forms->where('task_id', $task->id)->sum('unit_count');
+                                @endphp
+                                @if ($category->formula === 'per_unit_in_performed_task')
+                                    @php
+                                        $taskTotal = 25 * $total_unit_count;
+                                        $total += $taskTotal;
+                                    @endphp
+                                    {{ number_format($taskTotal, 2) }}
+                                @elseif ($category->formula === 'per_performed_task')
+                                    @php
+                                        $taskTotal = $task->amount * $forms->where('task_id', $task->id)->count();
+                                        $total += $taskTotal;
+                                    @endphp
+                                    {{ number_format($taskTotal, 2) }}
+                                @endif
                             </td>
                             <td class="py-2 px-4 text-gray-500 border border-gray-200">
                             </td>
                         </tr>
                     @endforeach
+                    <x-category-total total="{{ $total }}" />
                 @endforeach
             </tbody>
         </table>

@@ -1,4 +1,4 @@
-<x-tct.table :headers="['Name', 'Computation', 'Used By', 'Created At', 'Created By', '']">
+<x-tct.table :headers="['Name', 'Computation', 'Created At', 'Created By', '']">
     @forelse ($categories as $category)
         <tr>
             <x-tct.tcell>
@@ -6,13 +6,6 @@
             </x-tct.tcell>
             <x-tct.tcell>
                 {{ $formulas[$category->formula] }}
-            </x-tct.tcell>
-            <x-tct.tcell>
-                @if ($category->companies_count === 0)
-                    <x-badge>None</x-badge>
-                @else
-                    {{ $category->companies_count }} {{ Str::plural('company', $category->companies_count) }}
-                @endif
             </x-tct.tcell>
             <x-tct.tcell>
                 {{ $category->created_at->format('M d, Y') }}
