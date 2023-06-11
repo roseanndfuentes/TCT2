@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-
+use  Illuminate\Http\Request;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -73,7 +73,12 @@ Route::middleware(['auth','is_active'])->group(function () {
     Route::get('/companies',function (){
         return view('companies');
     })->name('companies')->middleware('can:view companies');
-    
+
+    Route::get('/account-setting',function (Request $request){
+        return view('account-setting',[
+            'user'=>$request->user()
+        ]);
+    })->name('account-setting');
 
     Route::get('/companies/{id}/settings',function ($id){
         return view('company-settings',[

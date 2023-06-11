@@ -22,6 +22,11 @@ class Index extends Component
     public $yearList = [];
     public $monthList = [];
 
+    public $editMinimumConsumableFeeHeaderModal = false;
+    public $editBasicDiligenceHeaderModal = false;
+    public $consumable_header_title = '';
+    public $basic_diligence_header_title = '';
+
     public $queryString = [
         'c_id' => ['except' => ''],
         'y' => ['except' => ''],
@@ -45,6 +50,10 @@ class Index extends Component
 
     public $tasks =[];
 
+    public $headers =[
+        'basic_document_due_diligence_header' => '',
+        'monthly_minimum_fee_header' => '',
+    ];
     
     public function mount()
     {
@@ -67,6 +76,10 @@ class Index extends Component
     }
     public function render()
     {
+        if ($this->company) {
+           $this->headers['basic_document_due_diligence_header'] = $this->company->basic_document_due_diligence_header;
+            $this->headers['monthly_minimum_fee_header'] = $this->company->monthly_minimum_fee_header;
+        }
         return view('livewire.billings.index');
     }
 
@@ -104,4 +117,31 @@ class Index extends Component
         $this->data['dvr_two'] = $dvr_count > 60 && $dvr_count <= 150 ? $dvr_count : 0;
         $this->data['dvr_three'] = $dvr_count > 150 && $dvr_count <= 400 ? $dvr_count : 0;
     }
+
+    public function updateConsumableHeader()
+    {
+        $this->validate([
+            'consumable_header_title' => 'required',
+        ]);
+        $this->company->update([
+            'monthly_minimum_fee_header'=> $this->consumable_header_title,
+        ]);
+        $this->editMinimumConsumableFeeHeaderModal = false;
+        $this->headers['monthly_minimum_fee_header'] = $this->consumable_header_title;
+        $this->dialog()->success('Updated successfully');
+    }
+
+    public function updateBasicDiligenceHeader()
+    {
+        $this->validate([
+            'basic_diligence_header_title' => 'required',
+        ]);
+        $this->company->update([
+            'basic_document_due_diligence_header'=> $this->basic_diligence_header_title,
+        ]);
+        $this->editBasicDiligenceHeaderModal = false;
+        $this->headers['basic_document_due_diligence_header'] = $this->basic_diligence_header_title;
+        $this->dialog()->success('Updated successfully');
+    }
+
 }

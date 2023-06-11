@@ -26,6 +26,8 @@ return new class extends Migration
             $table->string('dvr_two')->default('7.50'); //61-150
             $table->string('dvr_three')->default('6'); //151-400
             $table->unsignedBigInteger('created_by')->nullable();
+            $table->string('basic_document_due_diligence_header')->default('Basic Company Due Diligence');
+            $table->string('monthly_minimum_fee_header')->default('OaaS Monthly Minimum Fee');
             $table->timestamps();
         });
     }

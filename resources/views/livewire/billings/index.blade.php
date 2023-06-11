@@ -1,14 +1,27 @@
 <div class="space-y-4">
     @if ($company)
-        <div>
+        <div class="flex justify-between items-center">
             <h1 class="text-2xl font-semibold text-indigo-600">
                 {{ $company->name }}
             </h1>
+            <div class="flex space-x-2 ">
+                <x-secondary-button>
+                    <div class="flex items-center">
+                        <span>Export to Excel</span>
+                    </div>
+                </x-secondary-button>
+                <x-secondary-button>
+                    <div class="flex items-center">
+                        Print PDF
+                    </div>
+                </x-secondary-button>
+            </div>
         </div>
         <table class="min-w-full bg-white border rounded-lg">
             @include('includes.partials.billing-report._main-header')
             <tbody>
-                <x-report-sub-header name="OaaS Monthly Minimum Fee" total="" />
+                <x-report-sub-header modal-name="editMinimumConsumableFeeHeaderModal" allow-edit="true"
+                    name="{{ $headers['monthly_minimum_fee_header'] }}" total="" />
                 <tr>
                     <td class="py-2 px-4 font-bold text-gray-700 border border-gray-200">
                         <span class="ml-3">
@@ -27,7 +40,8 @@
                 </tr>
                 <x-category-total total="{{ number_format($company->minimum_consumable_fee, 2) }}" />
                 @include('includes.partials.billing-report._scaper')
-                <x-report-sub-header name="Basic Company Due Diligence" total="" />
+                <x-report-sub-header modal-name="editBasicDiligenceHeaderModal" allow-edit="true"
+                    name="{{ $headers['basic_document_due_diligence_header'] }}" total="" />
                 @include('includes.partials.billing-report._basic-due-diligence')
                 <x-category-total
                     total="{{ number_format($data['per_company_in_review'] * $company->per_company_in_review_amount + $data['dvr_one'] * $company->dvr_one + $data['dvr_two'] * $company->dvr_two + $data['dvr_three'] * $company->dvr_three, 2) }}" />
@@ -100,4 +114,6 @@
             @include('includes.partials._select-company-and-date')
         </div>
     @endif
+    @include('includes.modals._consumable-fee-header-edit')
+    @include('includes.modals._basic-diligence-header-edit')
 </div>
