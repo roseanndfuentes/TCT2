@@ -45,6 +45,7 @@ class Index extends Component
         'is_document_review_reference' => 0,
         'per_company_in_review' => 0,
         'review_starter'=>0,
+        'amount' => '',
     ];
     public $editTaskForm = [
         'name' => '',
@@ -52,8 +53,9 @@ class Index extends Component
         'is_document_review_reference' => 0,
         'per_company_in_review' => 0,
         'review_starter'=>0,
+        'amount' => '',
     ];
-
+   
     public function storeSegment()
     {
         if (auth()->user()->cannot('create company segments')) {
@@ -84,6 +86,7 @@ class Index extends Component
     {
         if (auth()->user()->cannot('create company tasks')) {
             $this->notification()->error('You are not authorized to create tasks');
+            $this->showCreateTaskModal = false;
             return;
         }
 
@@ -93,6 +96,7 @@ class Index extends Component
             'createTaskForm.is_document_review_reference' => 'nullable|in:0,1',
             'createTaskForm.per_company_in_review' => 'nullable|in:0,1',
             'createTaskForm.review_starter' => 'nullable|in:0,1',
+            'createTaskForm.amount' => 'nullable|numeric',
         ],[],[
             'createTaskForm.name' => 'task name',
             'createTaskForm.category_id' => 'category',
@@ -107,6 +111,7 @@ class Index extends Component
             'is_document_review_reference' => $this->createTaskForm['is_document_review_reference'],
             'count_per_company_review'=> $this->createTaskForm['per_company_in_review'],
             'review_starter'=> $this->createTaskForm['review_starter'],
+            'amount' => $this->createTaskForm['amount'],
         ]);
 
         $this->notification()->success('Task created successfully');
@@ -114,6 +119,10 @@ class Index extends Component
         $this->createTaskForm = [
             'name' => '',
             'category_id' => '',
+            'is_document_review_reference' => 0,
+            'per_company_in_review' => 0,
+            'review_starter'=>0,
+            'amount' => '',
         ];
 
         $this->showCreateTaskModal = false;
@@ -134,6 +143,7 @@ class Index extends Component
             'is_document_review_reference' => $this->editableTask->is_document_review_reference,
             'per_company_in_review' => $this->editableTask->count_per_company_review,
             'review_starter' => $this->editableTask->review_starter,
+            'amount' => $this->editableTask->amount,
         ];
 
         $this->showEditTaskModal = true;
@@ -144,6 +154,7 @@ class Index extends Component
     {
         if (auth()->user()->cannot('edit company tasks')) {
             $this->notification()->error('You are not authorized to edit tasks');
+            $this->showEditTaskModal = false;
             return;
         }
         $this->validate([
@@ -152,6 +163,7 @@ class Index extends Component
             'editTaskForm.is_document_review_reference' => 'nullable|in:0,1',
             'editTaskForm.per_company_in_review' => 'nullable|in:0,1',
             'editTaskForm.review_starter' => 'nullable|in:0,1',
+            'editTaskForm.amount' => 'nullable|numeric',
         ],[],[
             'editTaskForm.name' => 'task name',
             'editTaskForm.category_id' => 'category',
@@ -166,6 +178,7 @@ class Index extends Component
             'is_document_review_reference' => $this->editTaskForm['is_document_review_reference'],
             'count_per_company_review'=> $this->editTaskForm['per_company_in_review'],
             'review_starter'=> $this->editTaskForm['review_starter'],
+            'amount' => $this->editTaskForm['amount'],
         ]);
 
         $this->notification()->success('Task updated successfully');
@@ -175,6 +188,10 @@ class Index extends Component
         $this->editTaskForm = [
             'name' => '',
             'category_id' => '',
+            'is_document_review_reference' => 0,
+            'per_company_in_review' => 0,
+            'review_starter'=>0,
+            'amount' => '',
         ];
 
         $this->editableTask = null;

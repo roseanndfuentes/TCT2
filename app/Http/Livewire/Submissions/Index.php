@@ -59,7 +59,9 @@ class Index extends Component
     public function store()
     {
         if (auth()->user()->cannot('start form')) {
-            $this->notification()->error('You are not authorized to create submission');
+            $this->dialog()->error('You are not authorized to start form');
+
+            $this->showStartFormModal = false;
             return;
         }
 

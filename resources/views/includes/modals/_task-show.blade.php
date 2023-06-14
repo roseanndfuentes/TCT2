@@ -13,10 +13,18 @@
                     </tr>
                     <tr>
                         <td class="py-2 px-4 font-bold text-gray-700 border border-gray-200">
-                            Name
+                            Task Name
                         </td>
                         <td class="py-2 px-4 text-gray-500 border border-gray-200">
                             {{ $showTask->name }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="py-2 px-4 font-bold text-gray-700 border border-gray-200">
+                            Amount
+                        </td>
+                        <td class="py-2 px-4 text-gray-500 border border-gray-200">
+                            {{ $showTask->amount }}
                         </td>
                     </tr>
                     <tr>

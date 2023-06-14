@@ -9,30 +9,37 @@
                     <option value="" hidden>
                         --Select Segment--
                     </option>
+                    <option value="">
+                        Select All
+                    </option>
                     @foreach ($segments as $segment)
                         <option value="{{ $segment->id }}">{{ $segment->name }}</option>
                     @endforeach
                 </x-select-input>
-                <div class="flex space-x-2 items-center">
-                    <x-secondary-button x-on:click="$openModal('showCreateSegmentModal')">
-                        <x-slot:icon>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                stroke="currentColor" class="w-5 h-5">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6" />
-                            </svg>
-                        </x-slot:icon>
-                        <span class="ml-2">Add Segment</span>
-                    </x-secondary-button>
-                    @if ($s_id)
-                        <x-primary-button x-on:click="$openModal('showCreateTaskModal')">
+                <div class="flex space-x-2 items-center" x-animate>
+                    <div id="btn-create-segment">
+                        <x-secondary-button x-on:click="$openModal('showCreateSegmentModal')">
                             <x-slot:icon>
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                     stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6" />
                                 </svg>
                             </x-slot:icon>
-                            <span class="ml-2">Add Task</span>
-                        </x-primary-button>
+                            <span class="ml-2">Add Segment</span>
+                        </x-secondary-button>
+                    </div>
+                    @if ($s_id)
+                        <div id="btn-create-task">
+                            <x-primary-button x-on:click="$openModal('showCreateTaskModal')">
+                                <x-slot:icon>
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6" />
+                                    </svg>
+                                </x-slot:icon>
+                                <span class="ml-2">Add Task</span>
+                            </x-primary-button>
+                        </div>
                     @endif
                 </div>
             </div>

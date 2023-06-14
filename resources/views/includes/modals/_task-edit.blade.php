@@ -10,6 +10,15 @@
             @enderror
         </div>
         <div class="sm:col-span-2">
+            <x-input-label for="amount" value="Amount" required />
+            <div class="mt-1">
+                <x-text-input wire:model.defer="editTaskForm.amount" type="text" class="w-full" name="amount" />
+                @error('editTaskForm.amount')
+                    <x-validation-error>{{ $message }}</x-validation-error>
+                @enderror
+            </div>
+        </div>
+        <div class="sm:col-span-2">
             <x-input-label for="category" value="Category" required />
             <div class="mt-1">
                 <x-select-input wire:model.defer="editTaskForm.category_id" name="category" class="w-full">
@@ -23,6 +32,7 @@
                 @enderror
             </div>
         </div>
+
         <div class="sm:col-span-2">
             <x-input-label for="dv_ref" value="Make it document validation reference" required />
             <div class="mt-1">

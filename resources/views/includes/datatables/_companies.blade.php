@@ -13,7 +13,8 @@
             <x-tct.tcell>
                 <div class="flex space-x-2 items-center justify-end">
                     <x-button warning wire:click="edit({{ $company->id }})" flat icon="pencil" gray label="Edit" />
-                    <x-button primary flat icon="pencil" gray label="Manage" icon="cog" />
+                    <x-button primary href="{{ route('company-settings', ['id' => $company->id]) }}" flat icon="pencil" gray
+                        label="Manage" icon="cog" />
                 </div>
             </x-tct.tcell>
         </tr>

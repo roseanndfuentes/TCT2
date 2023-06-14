@@ -62,7 +62,7 @@
                                 </span>
                             </td>
                             <td class="py-2 px-4 text-gray-500 border border-gray-200">
-                                25.00
+                                {{ number_format($company->per_unit_work_amount, 2) }}
                             </td>
                             <td colspan="3" class="py-2 px-4 text-gray-500 border border-gray-200">
                             </td>
@@ -89,7 +89,7 @@
                                 @endphp
                                 @if ($category->formula === 'per_unit_in_performed_task')
                                     @php
-                                        $taskTotal = 25 * $total_unit_count;
+                                        $taskTotal = $company->per_unit_work_amount * $total_unit_count;
                                         $total += $taskTotal;
                                     @endphp
                                     {{ number_format($taskTotal, 2) }}
