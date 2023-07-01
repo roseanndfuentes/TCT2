@@ -14,6 +14,7 @@
     @wireUiScripts
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <script src=" https://cdn.jsdelivr.net/npm/chart.js@4.3.0/dist/chart.umd.min.js "></script>
     @livewireStyles
     <style>
         [x-cloak] {

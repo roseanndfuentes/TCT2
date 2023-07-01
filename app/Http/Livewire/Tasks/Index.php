@@ -92,7 +92,7 @@ class Index extends Component
 
         $this->validate([
             'createTaskForm.name' => 'required|string',
-            'createTaskForm.category_id' => 'nullable|exists:categories,id',
+            'createTaskForm.category_id' => 'nullable',
             'createTaskForm.is_document_review_reference' => 'nullable|in:0,1',
             'createTaskForm.per_company_in_review' => 'nullable|in:0,1',
             'createTaskForm.review_starter' => 'nullable|in:0,1',
@@ -159,7 +159,7 @@ class Index extends Component
         }
         $this->validate([
             'editTaskForm.name' => 'required|string',
-            'editTaskForm.category_id' => 'nullable|exists:categories,id',
+            'editTaskForm.category_id' => 'nullable',
             'editTaskForm.is_document_review_reference' => 'nullable|in:0,1',
             'editTaskForm.per_company_in_review' => 'nullable|in:0,1',
             'editTaskForm.review_starter' => 'nullable|in:0,1',

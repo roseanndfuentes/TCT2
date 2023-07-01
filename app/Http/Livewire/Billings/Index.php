@@ -108,8 +108,7 @@ class Index extends Component
             ->whereMonth('created_at', $this->m)
             ->with(['task'])
             ->get();
-        $per_review = $this->forms->where('task.review_starter', 1)->count();
-
+        $per_review = $this->forms->where('task.count_per_company_review', 1)->count();
         $dvr_count = $this->forms->where('initial_review',0)->count();
     
         $this->data['per_company_in_review']  = $per_review;

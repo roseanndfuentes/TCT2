@@ -91,6 +91,7 @@ class Index extends Component
             'forms' => Form::permisseble()
                     ->where('record_number', 'like', '%'.$this->search.'%')
                     ->with(['submitter','company'])
+                    ->latest()
                     ->paginate(10),
         ]);
     }
