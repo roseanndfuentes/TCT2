@@ -19,7 +19,6 @@
                     </x-sidebar-link>
                 @endcan
                 @can('view tasks', 'view task', 'create task', 'edit task', 'delete task')
-                    {{-- active if route start with /tasks --}}
                     <x-sidebar-link href="{{ route('tasks') }}" :active="request()->is('tasks*')" label="Tasks">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                             stroke="currentColor" class="h-6 w-6 shrink-0 group-hover:rotate-12 duration-150">

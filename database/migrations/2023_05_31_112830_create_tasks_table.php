@@ -15,7 +15,7 @@ return new class extends Migration
             
             $table->id();
             $table->unsignedBigInteger('segment_id');
-            $table->unsignedBigInteger('category_id');
+            $table->unsignedBigInteger('category_id')->nullable();
             $table->boolean('is_document_review_reference')->default(false);
             $table->boolean('count_per_company_review')->default(false);
             $table->boolean('review_starter')->default(false);

@@ -53,59 +53,61 @@
                         $total = 0;
                         $category = $categories->find($key);
                     @endphp
-                    <x-report-sub-header name="{{ $category->name }}" total="" />
-                    @if ($category->formula === 'per_unit_in_performed_task')
-                        <tr>
-                            <td class="py-2 px-4 font-bold text-gray-700 border border-gray-200">
-                                <span class="ml-3">
-                                    per hour (Note: 1 unit = 10 minutes work)
-                                </span>
-                            </td>
-                            <td class="py-2 px-4 text-gray-500 border border-gray-200">
-                                {{ number_format($company->per_unit_work_amount, 2) }}
-                            </td>
-                            <td colspan="3" class="py-2 px-4 text-gray-500 border border-gray-200">
-                            </td>
-                        </tr>
+                    @if ($category)
+                        <x-report-sub-header name="{{ $category?->name }}" total="" />
+                        @if ($category->formula === 'per_unit_in_performed_task')
+                            <tr>
+                                <td class="py-2 px-4 font-bold text-gray-700 border border-gray-200">
+                                    <span class="ml-3">
+                                        per hour (Note: 1 unit = 10 minutes work)
+                                    </span>
+                                </td>
+                                <td class="py-2 px-4 text-gray-500 border border-gray-200">
+                                    {{ number_format($company->per_unit_work_amount, 2) }}
+                                </td>
+                                <td colspan="3" class="py-2 px-4 text-gray-500 border border-gray-200">
+                                </td>
+                            </tr>
+                        @endif
+                        @foreach ($companyTask as $task)
+                            <tr>
+                                <td class="py-2 px-4 font-bold text-gray-700 border border-gray-200">
+                                    <span class="ml-3">
+                                        {{ $task->name }}
+                                    </span>
+                                </td>
+                                <td class="py-2 px-4 text-gray-500 border border-gray-200">
+                                    @if ($category->formula === 'per_performed_task')
+                                        {{ number_format($task->amount, 2) }}
+                                    @endif
+                                </td>
+                                <td class="py-2 px-4 text-gray-500 border border-gray-200">
+                                    {{ $forms->where('task_id', $task->id)->count() }}
+                                </td>
+                                <td class="py-2 px-4 text-gray-500 border border-gray-200">
+                                    @php
+                                        $total_unit_count = $forms->where('task_id', $task->id)->sum('unit_count');
+                                    @endphp
+                                    @if ($category->formula === 'per_unit_in_performed_task')
+                                        @php
+                                            $taskTotal = $company->per_unit_work_amount * $total_unit_count;
+                                            $total += $taskTotal;
+                                        @endphp
+                                        {{ number_format($taskTotal, 2) }}
+                                    @elseif ($category->formula === 'per_performed_task')
+                                        @php
+                                            $taskTotal = $task->amount * $forms->where('task_id', $task->id)->count();
+                                            $total += $taskTotal;
+                                        @endphp
+                                        {{ number_format($taskTotal, 2) }}
+                                    @endif
+                                </td>
+                                <td class="py-2 px-4 text-gray-500 border border-gray-200">
+                                </td>
+                            </tr>
+                        @endforeach
+                        <x-category-total total="{{ $total }}" />
                     @endif
-                    @foreach ($companyTask as $task)
-                        <tr>
-                            <td class="py-2 px-4 font-bold text-gray-700 border border-gray-200">
-                                <span class="ml-3">
-                                    {{ $task->name }}
-                                </span>
-                            </td>
-                            <td class="py-2 px-4 text-gray-500 border border-gray-200">
-                                @if ($category->formula === 'per_performed_task')
-                                    {{ number_format($task->amount, 2) }}
-                                @endif
-                            </td>
-                            <td class="py-2 px-4 text-gray-500 border border-gray-200">
-                                {{ $forms->where('task_id', $task->id)->count() }}
-                            </td>
-                            <td class="py-2 px-4 text-gray-500 border border-gray-200">
-                                @php
-                                    $total_unit_count = $forms->where('task_id', $task->id)->sum('unit_count');
-                                @endphp
-                                @if ($category->formula === 'per_unit_in_performed_task')
-                                    @php
-                                        $taskTotal = $company->per_unit_work_amount * $total_unit_count;
-                                        $total += $taskTotal;
-                                    @endphp
-                                    {{ number_format($taskTotal, 2) }}
-                                @elseif ($category->formula === 'per_performed_task')
-                                    @php
-                                        $taskTotal = $task->amount * $forms->where('task_id', $task->id)->count();
-                                        $total += $taskTotal;
-                                    @endphp
-                                    {{ number_format($taskTotal, 2) }}
-                                @endif
-                            </td>
-                            <td class="py-2 px-4 text-gray-500 border border-gray-200">
-                            </td>
-                        </tr>
-                    @endforeach
-                    <x-category-total total="{{ $total }}" />
                 @endforeach
             </tbody>
         </table>

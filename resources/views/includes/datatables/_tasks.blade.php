@@ -29,7 +29,9 @@
                 @endif
             </x-tct.tcell> --}}
             <x-tct.tcell>
-                {{ $task->category->name }}
+                <x-badge>
+                    {{ $task->category ? $task->category->name : 'N/A' }}
+                </x-badge>
             </x-tct.tcell>
             <x-tct.tcell>
                 <div class="flex space-x-2 items-center justify-end">

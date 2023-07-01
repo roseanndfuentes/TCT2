@@ -40,7 +40,9 @@
                             Category
                         </td>
                         <td class="py-2 px-4 text-gray-500 border border-gray-200">
-                            {{ $showTask->category->name }}
+                            <x-badge>
+                                {{ $showTask->category ? $showTask->category->name : 'N/A' }}
+                            </x-badge>
                         </td>
                     </tr>
                     <tr>

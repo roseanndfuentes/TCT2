@@ -19,11 +19,12 @@
             </div>
         </div>
         <div class="sm:col-span-2">
-            <x-input-label for="category" value="Category" required />
+            <x-input-label for="category" value="Category" />
             <div class="mt-1">
                 <x-select-input wire:model.defer="createTaskForm.category_id" name="category" class="w-full">
                     <option value="" hidden>Select</option>
                     @foreach ($categories as $key => $category)
+                        <option value="">Not Application</option>
                         <option value="{{ $category->id }}">{{ $category->name }}</option>
                     @endforeach
                 </x-select-input>

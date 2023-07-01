@@ -65,7 +65,7 @@ class Index extends Component
         if ($this->c_id) {
             $this->company = Company::find($this->c_id);
             if ($this->company) {
-                $this->tasks = Task::whereHas('segment', function ($query) {
+                $this->tasks = Task::where('category_id','!=','')->whereHas('segment', function ($query) {
                     $query->where('company_id', $this->company->id);
                 })->get();
                 $this->getSubmissionDetails();
