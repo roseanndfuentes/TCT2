@@ -2,32 +2,32 @@
 
 namespace App\Http\Livewire\Roles;
 
+use App\Services\PermissionsService;
 use Livewire\Component;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
-use App\Services\PermissionsService;
 
 class Permissions extends Component
 {
-
     public $role;
 
     public $search = '';
 
     public $description = PermissionsService::DESCRIPTIONS;
 
-    public $queryStrings = ['search'=> ['except' => '']];
+    public $queryStrings = ['search' => ['except' => '']];
 
     public function mount(Role $role)
     {
         $this->role = $role;
     }
+
     public function render()
     {
-        return view('livewire.roles.permissions',[
-            'permissions' =>Permission::query()
-                        ->when($this->search, fn($query) => $query->where('name', 'like', '%'.$this->search.'%'))
-                        ->get(),
+        return view('livewire.roles.permissions', [
+            'permissions' => Permission::query()
+                ->when($this->search, fn ($query) => $query->where('name', 'like', '%'.$this->search.'%'))
+                ->get(),
         ]);
     }
 

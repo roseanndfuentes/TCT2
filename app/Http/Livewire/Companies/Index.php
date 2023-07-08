@@ -13,25 +13,26 @@ class Index extends Component
 
     // filters
     public $search = '';
+
     protected $queryString = ['search' => ['except' => '']];
 
     // modals
     public $showCreateModal = false;
+
     public $showEditModal = false;
 
     // models and collections
     public $editable = null;
 
-
     // forms
-    public $createForm =  [
+    public $createForm = [
         'name' => '',
         'created_by' => '',
     ];
-    public $editForm =  [
+
+    public $editForm = [
         'name' => '',
     ];
-
 
     public function validateEditCompanyForm()
     {
@@ -52,13 +53,12 @@ class Index extends Component
         ]);
     }
 
-
-
     public function store()
     {
         if (auth()->user()->cannot('create company')) {
             $this->notification()->error('You are not authorized to create company');
             $this->showCreateModal = false;
+
             return;
         }
 
@@ -78,13 +78,14 @@ class Index extends Component
     {
         if (auth()->user()->cannot('edit company')) {
             $this->notification()->error('You are not authorized to edit company');
+
             return;
         }
 
         $this->editable = $company;
 
         $this->editForm['name'] = $company->name;
-        
+
         $this->showEditModal = true;
     }
 
@@ -93,13 +94,14 @@ class Index extends Component
         if (auth()->user()->cannot('edit company')) {
             $this->notification()->error('You are not authorized to edit company');
             $this->showEditModal = false;
+
             return;
         }
 
         $this->validateEditCompanyForm();
 
         $this->editable->update([
-            'name' => $this->editForm['name']
+            'name' => $this->editForm['name'],
         ]);
 
         $this->notification()->success('Company updated successfully');
@@ -107,14 +109,13 @@ class Index extends Component
         $this->showEditModal = false;
     }
 
-
     public function render()
     {
         return view('livewire.companies.index', [
             'companies' => Company::query()
                 ->when($this->search != '', fn ($query) => $query->where('name', 'like', "%{$this->search}%"))
                 ->with('creator')
-                ->paginate(10)
+                ->paginate(10),
         ]);
     }
 }

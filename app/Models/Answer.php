@@ -9,11 +9,11 @@ class Answer extends Model
 {
     use HasFactory;
 
-    protected $guarded=[];
+    protected $guarded = [];
 
     public function question()
     {
-        return $this->belongsTo(TaskQuestion::class,'question_id');
+        return $this->belongsTo(TaskQuestion::class, 'question_id');
     }
 
     public function form()

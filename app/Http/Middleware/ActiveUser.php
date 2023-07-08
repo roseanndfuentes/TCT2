@@ -16,10 +16,12 @@ class ActiveUser
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(auth()->user()->is_active === 0) {
+        if (auth()->user()->is_active === 0) {
             Auth::logout();
+
             return redirect()->route('login')->withErrors(['email' => 'Your account is not active. Please contact administrator.']);
         }
+
         return $next($request);
     }
 }

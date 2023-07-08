@@ -2,7 +2,7 @@
 const data = {
     labels: labels,
     datasets: [{
-        label: false,
+        label: 'Submissions for the last 7 days',
         data: [65, 59, 80, 81, 56, 55, 40],
         backgroundColor: [
             'rgba(255, 99, 132, 0.2)',
@@ -38,7 +38,7 @@ const config = {
     },
 };
 const myChart = new Chart(document.getElementById('charts'), config);" class="flex">
-    <div class="bg-white border rounded-lg p-3 w-3/4 border-gray-300"><canvas id="charts"></canvas>
+    <div class="bg-white border rounded-lg p-3 border-gray-300"><canvas  id="charts"></canvas>
     </div>
     <div>
     </div>

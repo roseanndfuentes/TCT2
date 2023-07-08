@@ -15,18 +15,19 @@ class Category extends Model
     ];
 
     const PER_UNIT_IN_PERFORMED_TASK = 'per_unit_in_performed_task';
+
     const PER_PERFORMED_TASK = 'per_performed_task';
 
-    protected $guarded=[];
+    protected $guarded = [];
 
     public function creator()
     {
-        return $this->belongsTo(User::class,'created_by');
+        return $this->belongsTo(User::class, 'created_by');
     }
 
     public function companies()
     {
-        return $this->belongsToMany(Company::class,'category_companies');
+        return $this->belongsToMany(Company::class, 'category_companies');
     }
 
     public function tasks()

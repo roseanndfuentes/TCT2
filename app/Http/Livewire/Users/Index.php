@@ -15,10 +15,12 @@ class Index extends Component
 
     // filters
     public $search = '';
+
     protected $queryString = ['search' => ['except' => '']];
 
     // modals
     public $showCreateModal = false;
+
     public $showEditModal = false;
 
     // models and collections
@@ -80,7 +82,7 @@ class Index extends Component
             'createForm.email' => 'required|email|unique:users,email',
             'createForm.password' => 'required|string|min:8',
             'createForm.role' => 'required|exists:roles,id',
-        ],[],[
+        ], [], [
             'createForm.name' => 'name',
             'createForm.email' => 'email',
             'createForm.password' => 'password',
@@ -92,6 +94,7 @@ class Index extends Component
     {
         if (auth()->user()->cannot('edit user')) {
             $this->notification()->error('You are not authorized to edit user');
+
             return;
         }
 
@@ -111,6 +114,7 @@ class Index extends Component
     {
         if (auth()->user()->cannot('edit user')) {
             $this->notification()->error('You are not authorized to edit user');
+
             return;
         }
 
@@ -143,8 +147,8 @@ class Index extends Component
             'editForm.name' => 'required|string',
             'editForm.email' => 'required|email|unique:users,email,'.$this->editable->id,
             'editForm.role' => 'required|exists:roles,id',
-            'editForm.is_active' => 'required|in:0,1'
-        ],[],[
+            'editForm.is_active' => 'required|in:0,1',
+        ], [], [
             'editForm.name' => 'name',
             'editForm.email' => 'email',
             'editForm.role' => 'role',

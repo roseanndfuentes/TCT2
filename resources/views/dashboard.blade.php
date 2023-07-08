@@ -13,14 +13,16 @@
         </div>
     </x-slot:title>
     <div>
-        <h3 class="text-base font-semibold leading-6 text-gray-900">
+        <h3 class="text-xl font-semibold leading-6 text-gray-900">
             Statistic Overview
         </h3>
         <div>
             @livewire('dashboard.statistics-overview')
         </div>
-        <div class="mt-5">
-            @livewire('dashboard.chart-reports')
+        <div class="mt-5 grid grid-cols-12">
+            <div class="sm:col-span-8">
+                @livewire('charts.last-seven-day-chart')
+            </div>
         </div>
     </div>
 </x-admin-layout>

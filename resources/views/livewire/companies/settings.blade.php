@@ -93,13 +93,101 @@
                         <button type="button"
                             x-on:confirm="{
                         title: 'Are you sure?',
-                        description: 'This will change the status of the company.',
+                        description: 'This will change the per company in per unit of work amount.',
                         icon: 'warning',
                         method: 'updatePerUnitAmount',
                     }"
                             class="font-semibold text-indigo-600 hover:text-indigo-500">
                             <span wire:loading.remove wire:target="updatePerUnitAmount">Update</span>
                             <span wire:loading wire:target="updatePerUnitAmount">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                    stroke-width="1.5" stroke="currentColor" class="w-6 animate-spin h-6">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
+                                </svg>
+                            </span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div id="axcaserqwerqweqw" class="p-3 bg-gray-100 rounded-lg border">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <x-input-label for="1_60" value="Document Validation (1-60) amount" />
+                        <div class="mt-1">
+                            <x-text-input wire:model.defer="dv_one" name="1_60" id="1_60" type="number" />
+                        </div>
+                    </div>
+                    <div class="pt-7">
+                        <button type="button"
+                            x-on:confirm="{
+                        title: 'Are you sure?',
+                        icon: 'warning',
+                        method: 'updateDvOne',
+                    }"
+                            class="font-semibold text-indigo-600 hover:text-indigo-500">
+                            <span wire:loading.remove wire:target="updateDvOne">Update</span>
+                            <span wire:loading wire:target="updateDvOne">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                    stroke-width="1.5" stroke="currentColor" class="w-6 animate-spin h-6">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
+                                </svg>
+                            </span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="xcawdfwqedasdasdas" class="p-3 bg-gray-100 rounded-lg border">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <x-input-label for="61_150" value="Document Validation (61-150) amount" />
+                        <div class="mt-1">
+                            <x-text-input wire:model.defer="dv_two" name="61_150" id="61_150" type="number" />
+                        </div>
+                    </div>
+                    <div class="pt-7">
+                        <button type="button"
+                            x-on:confirm="{
+                        title: 'Are you sure?',
+                        icon: 'warning',
+                        method: 'updateDvTwo',
+                    }"
+                            class="font-semibold text-indigo-600 hover:text-indigo-500">
+                            <span wire:loading.remove wire:target="updateDvTwo">Update</span>
+                            <span wire:loading wire:target="updateDvTwo">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                    stroke-width="1.5" stroke="currentColor" class="w-6 animate-spin h-6">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
+                                </svg>
+                            </span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+
+            <div id="dasd3wqe3qdasda" class="p-3 bg-gray-100 rounded-lg border">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <x-input-label for="151_400" value="Document Validation (151-300) amount" />
+                        <div class="mt-1">
+                            <x-text-input wire:model.defer="dv_three" name="151_400" id="151_400"
+                                type="number" />
+                        </div>
+                    </div>
+                    <div class="pt-7">
+                        <button type="button"
+                            x-on:confirm="{
+                        title: 'Are you sure?',
+                        icon: 'warning',
+                        method: 'updateDvThree',
+                    }"
+                            class="font-semibold text-indigo-600 hover:text-indigo-500">
+                            <span wire:loading.remove wire:target="updateDvThree">Update</span>
+                            <span wire:loading wire:target="updateDvThree">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                     stroke-width="1.5" stroke="currentColor" class="w-6 animate-spin h-6">
                                     <path stroke-linecap="round" stroke-linejoin="round"

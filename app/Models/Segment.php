@@ -9,7 +9,7 @@ class Segment extends Model
 {
     use HasFactory;
 
-    protected $guarded=[];
+    protected $guarded = [];
 
     public function company()
     {

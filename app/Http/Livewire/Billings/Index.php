@@ -2,11 +2,11 @@
 
 namespace App\Http\Livewire\Billings;
 
-use App\Models\Form;
-use App\Models\Company;
-use Livewire\Component;
 use App\Models\Category;
+use App\Models\Company;
+use App\Models\Form;
 use App\Models\Task;
+use Livewire\Component;
 use WireUi\Traits\Actions;
 
 class Index extends Component
@@ -14,17 +14,21 @@ class Index extends Component
     use Actions;
 
     public $c_id;
+
     public $y;
+
     public $m;
 
-
-
     public $yearList = [];
+
     public $monthList = [];
 
     public $editMinimumConsumableFeeHeaderModal = false;
+
     public $editBasicDiligenceHeaderModal = false;
+
     public $consumable_header_title = '';
+
     public $basic_diligence_header_title = '';
 
     public $queryString = [
@@ -42,19 +46,19 @@ class Index extends Component
 
     public $companies = [];
 
-    public $company =null;
+    public $company = null;
 
-    public $forms =[];
+    public $forms = [];
 
-    public $categories =[];
+    public $categories = [];
 
-    public $tasks =[];
+    public $tasks = [];
 
-    public $headers =[
+    public $headers = [
         'basic_document_due_diligence_header' => '',
         'monthly_minimum_fee_header' => '',
     ];
-    
+
     public function mount()
     {
         $this->companies = Company::all();
@@ -65,7 +69,7 @@ class Index extends Component
         if ($this->c_id) {
             $this->company = Company::find($this->c_id);
             if ($this->company) {
-                $this->tasks = Task::where('category_id','!=','')->whereHas('segment', function ($query) {
+                $this->tasks = Task::where('category_id', '!=', '')->whereHas('segment', function ($query) {
                     $query->where('company_id', $this->company->id);
                 })->get();
                 $this->getSubmissionDetails();
@@ -74,44 +78,46 @@ class Index extends Component
 
         $this->categories = Category::all();
     }
+
     public function render()
     {
         if ($this->company) {
-           $this->headers['basic_document_due_diligence_header'] = $this->company->basic_document_due_diligence_header;
+            $this->headers['basic_document_due_diligence_header'] = $this->company->basic_document_due_diligence_header;
             $this->headers['monthly_minimum_fee_header'] = $this->company->monthly_minimum_fee_header;
         }
+
         return view('livewire.billings.index');
     }
 
     public function loadReport()
     {
-       if(!$this->c_id){
-          $this->dialog()->error('Please select a company');
-          
-          return;
-       }
+        if (! $this->c_id) {
+            $this->dialog()->error('Please select a company');
 
-       $this->company = Company::find($this->c_id);
-       if ($this->company) {
-        $this->tasks = Task::whereHas('segment', function ($query) {
-            $query->where('company_id', $this->company->id);
-        })->get();
+            return;
+        }
+
+        $this->company = Company::find($this->c_id);
+        if ($this->company) {
+            $this->tasks = Task::whereHas('segment', function ($query) {
+                $query->where('company_id', $this->company->id);
+            })->get();
             $this->getSubmissionDetails();
-       }
+        }
     }
 
     public function getSubmissionDetails()
     {
         $this->forms = Form::where('company_id', $this->company->id)
-            ->where('status', 'submitted')  
+            ->where('status', 'submitted')
             ->whereYear('created_at', $this->y)
             ->whereMonth('created_at', $this->m)
             ->with(['task'])
             ->get();
         $per_review = $this->forms->where('task.count_per_company_review', 1)->count();
-        $dvr_count = $this->forms->where('initial_review',0)->count();
-    
-        $this->data['per_company_in_review']  = $per_review;
+        $dvr_count = $this->forms->where('initial_review', 0)->count();
+
+        $this->data['per_company_in_review'] = $per_review;
         $this->data['dvr_one'] = $dvr_count > 0 && $dvr_count <= 60 ? $dvr_count : 0;
         $this->data['dvr_two'] = $dvr_count > 60 && $dvr_count <= 150 ? $dvr_count : 0;
         $this->data['dvr_three'] = $dvr_count > 150 && $dvr_count <= 400 ? $dvr_count : 0;
@@ -123,7 +129,7 @@ class Index extends Component
             'consumable_header_title' => 'required',
         ]);
         $this->company->update([
-            'monthly_minimum_fee_header'=> $this->consumable_header_title,
+            'monthly_minimum_fee_header' => $this->consumable_header_title,
         ]);
         $this->editMinimumConsumableFeeHeaderModal = false;
         $this->headers['monthly_minimum_fee_header'] = $this->consumable_header_title;
@@ -136,11 +142,10 @@ class Index extends Component
             'basic_diligence_header_title' => 'required',
         ]);
         $this->company->update([
-            'basic_document_due_diligence_header'=> $this->basic_diligence_header_title,
+            'basic_document_due_diligence_header' => $this->basic_diligence_header_title,
         ]);
         $this->editBasicDiligenceHeaderModal = false;
         $this->headers['basic_document_due_diligence_header'] = $this->basic_diligence_header_title;
         $this->dialog()->success('Updated successfully');
     }
-
 }

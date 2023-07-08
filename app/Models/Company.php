@@ -9,16 +9,16 @@ class Company extends Model
 {
     use HasFactory;
 
-    protected $guarded=[];
+    protected $guarded = [];
 
     public function categories()
     {
-        return $this->belongsToMany(Category::class,'category_companies');
+        return $this->belongsToMany(Category::class, 'category_companies');
     }
 
     public function creator()
     {
-        return $this->belongsTo(User::class,'created_by');
+        return $this->belongsTo(User::class, 'created_by');
     }
 
     public function segments()

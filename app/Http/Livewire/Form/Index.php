@@ -6,6 +6,7 @@ use App\Models\Form;
 use App\Models\TaskQuestion;
 use Livewire\Component;
 use WireUi\Traits\Actions;
+
 class Index extends Component
 {
     use Actions;
@@ -19,12 +20,12 @@ class Index extends Component
     public $persistedAnswers = [];
 
     public $statuses = Form::STATUSES;
-    
-    public $timeConverter;
 
+    public $timeConverter;
 
     // form
     public $answersForm = [];
+
     public $initialInterview = 1;
 
     public function mount($id)
@@ -38,6 +39,7 @@ class Index extends Component
 
         $this->fillIntialForm($this->persistedAnswers);
     }
+
     public function render()
     {
 
@@ -87,18 +89,20 @@ class Index extends Component
     public function submit()
     {
 
-        foreach($this->questions as $question){
-            if(!array_key_exists($question->id, $this->answersForm)){
+        foreach ($this->questions as $question) {
+            if (! array_key_exists($question->id, $this->answersForm)) {
                 $this->dialog()->error(
                     $title = 'Validation Error',
                     $description = 'Please fill all the questions',
                 );
+
                 return;
-            }else if(array_key_exists($question->id, $this->answersForm) && $this->answersForm[$question->id] == ''){
+            } elseif (array_key_exists($question->id, $this->answersForm) && $this->answersForm[$question->id] == '') {
                 $this->dialog()->error(
                     $title = 'Validation Error',
                     $description = 'Please fill all the questions',
                 );
+
                 return;
             }
         }

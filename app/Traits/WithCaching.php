@@ -4,26 +4,25 @@ namespace App\Traits;
 
 trait WithCaching
 {
-      protected $useCache = true;
+    protected $useCache = true;
 
-      public function useCacheRows()
-      {
-            $this->useCache = true;
-      }
+    public function useCacheRows()
+    {
+        $this->useCache = true;
+    }
 
-      public function cache($callback)
-      {
-            $cacheKey = $this->id;
+    public function cache($callback)
+    {
+        $cacheKey = $this->id;
 
-            if($this->useCache && cache()->has($cacheKey))
-            {
-                  return cache()->get($cacheKey);
-            }
+        if ($this->useCache && cache()->has($cacheKey)) {
+            return cache()->get($cacheKey);
+        }
 
-            $result = $callback();
+        $result = $callback();
 
-            cache()->put($cacheKey,$result);
+        cache()->put($cacheKey, $result);
 
-             return $result;
-      }
+        return $result;
+    }
 }

@@ -9,7 +9,7 @@ class Task extends Model
 {
     use HasFactory;
 
-    protected $guarded=[];
+    protected $guarded = [];
 
     public function segment()
     {
@@ -18,14 +18,14 @@ class Task extends Model
 
     public function creator()
     {
-        return $this->belongsTo(User::class,'created_by');
+        return $this->belongsTo(User::class, 'created_by');
     }
 
     public function taskQuestions()
     {
         return $this->hasMany(TaskQuestion::class);
     }
-    
+
     public function forms()
     {
         return $this->hasMany(Form::class);

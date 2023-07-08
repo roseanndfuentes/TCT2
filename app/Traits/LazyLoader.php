@@ -4,10 +4,10 @@ namespace App\Traits;
 
 trait LazyLoader
 {
-      public $loaded = false;
+    public $loaded = false;
 
-      public function load()
-      {
-            $this->loaded = true;
-      }
+    public function load()
+    {
+        $this->loaded = true;
+    }
 }

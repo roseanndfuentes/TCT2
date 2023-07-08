@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use App\Models\Company;
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class CompaniesSeeder extends Seeder
@@ -15,7 +14,7 @@ class CompaniesSeeder extends Seeder
     public function run(): void
     {
         $admin = User::role('Admin')->first();
-        
+
         Company::create([
             'name' => 'Payreto',
             'created_by' => $admin->id,
@@ -50,6 +49,6 @@ class CompaniesSeeder extends Seeder
             'name' => 'FIDO Money',
             'created_by' => $admin->id,
         ]);
-       
+
     }
 }

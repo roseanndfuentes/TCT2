@@ -13,34 +13,36 @@ class Index extends Component
 
     // filters
     public $search = '';
-    protected $queryString = ['search' => ['except' => '']];
 
+    protected $queryString = ['search' => ['except' => '']];
 
     // modals
     public $showCreateModal = false;
-    public $showEditModal = false;
 
+    public $showEditModal = false;
 
     // models and collections
     public $editable = null;
+
     public $formulas = Category::FORMULAS;
 
-
     // forms
-    public $createForm =  [
+    public $createForm = [
         'name' => '',
         'is_active' => true,
         'formula' => '',
         'created_by' => '',
     ];
-    public $editForm =  [
+
+    public $editForm = [
         'name' => '',
     ];
 
     public function store()
     {
-        if(auth()->user()->cannot('create category')) {
+        if (auth()->user()->cannot('create category')) {
             $this->notification()->error('You are not authorized to create category');
+
             return;
         }
 
@@ -52,7 +54,7 @@ class Index extends Component
             'created_by' => $this->createForm['created_by'],
         ]);
 
-        $this->createForm =  [
+        $this->createForm = [
             'name' => '',
             'is_active' => true,
             'formula' => '',
@@ -66,31 +68,33 @@ class Index extends Component
 
     public function edit(Category $category)
     {
-        if(auth()->user()->cannot('edit category')) {
+        if (auth()->user()->cannot('edit category')) {
             $this->notification()->error('You are not authorized to update category');
+
             return;
         }
         $this->editable = $category;
 
         $this->editForm['name'] = $category->name;
-        
+
         $this->showEditModal = true;
     }
 
     public function update()
     {
-        if(auth()->user()->cannot('edit category')) {
+        if (auth()->user()->cannot('edit category')) {
             $this->notification()->error('You are not authorized to update category');
+
             return;
         }
 
         $this->validateEditCategoryForm();
 
         $this->editable->update([
-            'name' => $this->editForm['name']
+            'name' => $this->editForm['name'],
         ]);
 
-        $this->editForm =  [
+        $this->editForm = [
             'name' => '',
         ];
 
@@ -126,7 +130,7 @@ class Index extends Component
             'categories' => Category::query()
                 ->when($this->search != '', fn ($query) => $query->where('name', 'like', "%{$this->search}%"))
                 ->with('creator')
-                ->paginate(10)
+                ->paginate(10),
         ]);
     }
 }

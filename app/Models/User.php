@@ -15,27 +15,27 @@ class User extends Authenticatable
 
     public function created_categories()
     {
-        return $this->hasMany(Category::class,'created_by');
+        return $this->hasMany(Category::class, 'created_by');
     }
 
     public function created_companies()
     {
-        return $this->hasMany(Company::class,'created_by');
+        return $this->hasMany(Company::class, 'created_by');
     }
 
     public function created_tasks()
     {
-        return $this->hasMany(Task::class,'created_by');
+        return $this->hasMany(Task::class, 'created_by');
     }
 
     public function created_task_questions()
     {
-        return $this->hasMany(TaskQuestion::class,'created_by');
+        return $this->hasMany(TaskQuestion::class, 'created_by');
     }
 
     public function submitted_forms()
     {
-        return $this->hasMany(Form::class,'submitted_by');
+        return $this->hasMany(Form::class, 'submitted_by');
     }
 
     /**
@@ -48,7 +48,7 @@ class User extends Authenticatable
         'email',
         'password',
         'created_by',
-        'is_active'
+        'is_active',
     ];
 
     /**
@@ -73,11 +73,11 @@ class User extends Authenticatable
 
     public function creator()
     {
-        return $this->belongsTo(User::class,'created_by');
+        return $this->belongsTo(User::class, 'created_by');
     }
 
     public function created_by()
     {
-        return $this->belongsTo(User::class,'created_by');
+        return $this->belongsTo(User::class, 'created_by');
     }
 }

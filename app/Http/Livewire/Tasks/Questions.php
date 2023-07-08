@@ -2,19 +2,23 @@
 
 namespace App\Http\Livewire\Tasks;
 
+use App\Models\Task;
+use App\Models\TaskQuestion;
 use Livewire\Component;
-use App\Models\{Task,TaskQuestion};
 use Livewire\WithPagination;
 use WireUi\Traits\Actions;
+
 class Questions extends Component
 {
     use WithPagination, Actions;
+
     public $task;
 
     // filters
-    public $search = "";
+    public $search = '';
+
     public $queryString = [
-        'search'=>['except'=>''],
+        'search' => ['except' => ''],
     ];
 
     // models and collections
@@ -22,6 +26,7 @@ class Questions extends Component
 
     // modals
     public $showCreateModal = false;
+
     public $showEditModal = false;
 
     // forms
@@ -29,6 +34,7 @@ class Questions extends Component
         'question' => '',
         'options' => '',
     ];
+
     public $editForm = [
         'question' => '',
         'options' => '',
@@ -38,17 +44,18 @@ class Questions extends Component
     {
         if (auth()->user()->cannot('create company questions')) {
             $this->notification()->error('You are not authorized to create company');
+
             return;
         }
         $this->validate([
             'createForm.question' => 'required|string',
             'createForm.options' => 'nullable|string',
-        ],[],[
+        ], [], [
             'createForm.question' => 'question',
             'createForm.options' => 'options',
         ]);
 
-       TaskQuestion::create([
+        TaskQuestion::create([
             'task_id' => $this->task->id,
             'message' => $this->createForm['question'],
             'options' => $this->createForm['options'],
@@ -68,6 +75,7 @@ class Questions extends Component
     {
         if (auth()->user()->cannot('edit company questions')) {
             $this->notification()->error('You are not authorized to edit company');
+
             return;
         }
         $this->editable = TaskQuestion::find($id);
@@ -82,12 +90,13 @@ class Questions extends Component
     {
         if (auth()->user()->cannot('edit company questions')) {
             $this->notification()->error('You are not authorized to update company');
+
             return;
         }
         $this->validate([
             'editForm.question' => 'required|string',
             'editForm.options' => 'nullable|string',
-        ],[],[
+        ], [], [
             'editForm.question' => 'question',
             'editForm.options' => 'options',
         ]);
@@ -113,13 +122,13 @@ class Questions extends Component
 
     public function render()
     {
-        return view('livewire.tasks.questions',[
+        return view('livewire.tasks.questions', [
             'questions' => $this->task->taskQuestions()
-                    ->when($this->search!='', function ($query) {
-                        $query->where('message', 'like', '%'.$this->search.'%');
-                    })
-                    ->with('creator')
-                    ->paginate(10)
+                ->when($this->search != '', function ($query) {
+                    $query->where('message', 'like', '%'.$this->search.'%');
+                })
+                ->with('creator')
+                ->paginate(10),
         ]);
 
     }

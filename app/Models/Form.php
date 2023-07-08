@@ -9,21 +9,23 @@ class Form extends Model
 {
     use HasFactory;
 
-    protected $guarded=[];
+    protected $guarded = [];
 
     const STATUSES = [
-        'in_progress'=>'In Progress',
-        'paused'=>'Paused',
-        'submitted'=>'Submitted',
+        'in_progress' => 'In Progress',
+        'paused' => 'Paused',
+        'submitted' => 'Submitted',
     ];
 
     const IN_PROGRESS = 'in_progress';
+
     const PAUSED = 'paused';
+
     const SUBMITTED = 'submitted';
 
     public function submitter()
     {
-        return $this->belongsTo(User::class,'submitted_by');
+        return $this->belongsTo(User::class, 'submitted_by');
     }
 
     public function company()
@@ -46,6 +48,7 @@ class Form extends Model
         if (auth()->user()->can('view all submissions')) {
             return $query;
         }
+
         return $query->where('submitted_by', auth()->id());
     }
 
@@ -67,10 +70,10 @@ class Form extends Model
     public function pause()
     {
         $this->update([
-            'status'=>self::PAUSED,
-            'total_time_spent'=>$this->totalTimeSpentInSeconds(),
-            'last_pause_time'=>now(),
-            'pause_id' => $this->pause_id !='' ? $this->pause_id : $this->generatePausedId(),
+            'status' => self::PAUSED,
+            'total_time_spent' => $this->totalTimeSpentInSeconds(),
+            'last_pause_time' => now(),
+            'pause_id' => $this->pause_id != '' ? $this->pause_id : $this->generatePausedId(),
         ]);
     }
 
@@ -78,7 +81,7 @@ class Form extends Model
     {
         if ($this->last_resume_time) {
             return $this->total_time_spent + now()->diffInSeconds(\Carbon\Carbon::parse($this->last_resume_time));
-        }else{
+        } else {
             return $this->total_time_spent + now()->diffInSeconds(\Carbon\Carbon::parse($this->start_time));
         }
     }
@@ -86,8 +89,8 @@ class Form extends Model
     public function resume()
     {
         $this->update([
-            'status'=>self::IN_PROGRESS,
-            'last_resume_time'=>now(),
+            'status' => self::IN_PROGRESS,
+            'last_resume_time' => now(),
         ]);
     }
 
@@ -107,11 +110,12 @@ class Form extends Model
         $this->end_time = now();
         $this->total_time_spent = $this->totalTimeSpentInSeconds();
         $this->unit_count = $this->getTotalUnit($this->total_time_spent);
+        $this->submitted_at = now();
         $this->save();
     }
 
     public function getTotalUnit($totalTimeSpendInSec)
     {
-        return ceil($totalTimeSpendInSec/600);
+        return ceil($totalTimeSpendInSec / 600);
     }
 }

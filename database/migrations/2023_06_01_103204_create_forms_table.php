@@ -25,13 +25,14 @@ return new class extends Migration
             $table->timestamp('start_time')->nullable();
             $table->timestamp('end_time')->nullable();
             $table->string('total_time_spent')->nullable(); // total time spent on the form excluding pauses
-            
+
             $table->string('pause_id')->nullable();
             $table->timestamp('last_pause_time')->nullable();
             $table->timestamp('last_resume_time')->nullable();
             $table->boolean('initial_review')->default(true);
             $table->string('document_count')->default(0);
             $table->string('unit_count')->default(0);
+            $table->dateTime('submitted_at')->nullable();
             $table->timestamps();
         });
     }

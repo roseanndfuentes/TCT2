@@ -9,7 +9,7 @@ class TaskQuestion extends Model
 {
     use HasFactory;
 
-    protected $guarded=[];
+    protected $guarded = [];
 
     public function task()
     {
@@ -18,16 +18,16 @@ class TaskQuestion extends Model
 
     public function creator()
     {
-        return $this->belongsTo(User::class,'created_by');
+        return $this->belongsTo(User::class, 'created_by');
     }
 
-    public function scopeOfThis($query,$taskId)
+    public function scopeOfThis($query, $taskId)
     {
-        return $query->where('task_id',$taskId);
+        return $query->where('task_id', $taskId);
     }
 
     public function answers()
     {
-        return $this->hasMany(Answer::class,'question_id');
+        return $this->hasMany(Answer::class, 'question_id');
     }
 }
