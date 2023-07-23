@@ -8,8 +8,11 @@ use Livewire\Component;
 class LastSevenDayChart extends Component
 {
     public $startDate;
+
     public $endDate;
+
     public $chartValues = [];
+
     public $labels = [];
 
     public function mount()
@@ -30,7 +33,7 @@ class LastSevenDayChart extends Component
 
     public function generateDateList()
     {
-       if($this->startDate && $this->endDate){
+        if ($this->startDate && $this->endDate) {
             $this->labels = [];
             $startDate = \Carbon\Carbon::parse($this->startDate);
             $endDate = \Carbon\Carbon::parse($this->endDate);
@@ -41,32 +44,33 @@ class LastSevenDayChart extends Component
             }
 
             $this->emit('updateChart');
-       };
+        }
     }
 
     public function loadData()
     {
         $this->chartValues = [];
         $submissions = Form::query()
-        ->selectRaw('count(*) as count, DATE(submitted_at) as date')
-        ->where('status', Form::SUBMITTED)
-        ->whereDate('submitted_at', '>=', $this->labels[0])
-        ->whereDate('submitted_at', '<=', $this->labels[count($this->labels) - 1])
-        ->groupBy('date')
-        ->orderBy('date', 'ASC')
-        ->pluck('count', 'date')
-        ->toArray();
+            ->selectRaw('count(*) as count, DATE(submitted_at) as date')
+            ->where('status', Form::SUBMITTED)
+            ->whereDate('submitted_at', '>=', $this->labels[0])
+            ->whereDate('submitted_at', '<=', $this->labels[count($this->labels) - 1])
+            ->groupBy('date')
+            ->orderBy('date', 'ASC')
+            ->pluck('count', 'date')
+            ->toArray();
         foreach ($this->labels as $label) {
             $this->chartValues[] = $submissions[$label] ?? 0;
-        };
+        }
     }
- 
+
     public function render()
     {
         $this->generateDateList();
-        if($this->startDate && $this->endDate){
+        if ($this->startDate && $this->endDate) {
             $this->loadData();
         }
+
         return view('livewire.charts.last-seven-day-chart');
     }
 }

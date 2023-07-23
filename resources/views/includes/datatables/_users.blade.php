@@ -35,7 +35,9 @@
             </x-tct.tcell>
             <x-tct.tcell>
                 <div class="flex space-x-2 items-center justify-end">
-                    <x-button warning wire:click="edit({{ $user->id }})" flat icon="pencil" gray label="Edit" />
+                    <x-button warning wire:click="edit({{ $user->id }})" flat icon="pencil" label="Edit" />
+                    <x-button primary href="{{ route('user-leaves', ['id' => $user->id]) }}" flat icon="paper-clip"
+                        label="Manage Leaves" />
                 </div>
             </x-tct.tcell>
         </tr>

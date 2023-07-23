@@ -92,6 +92,19 @@ Route::middleware(['auth', 'is_active'])->group(function () {
         ]);
     })->name('company-segments')->middleware('can:edit company setting');
 
+    Route::get('/productivity', function () {
+        return view('productivity');
+    })->name('productivity');
+
+    Route::get('/users/{id}/leaves', function ($id) {
+        return view('user-leaves', [
+            'id' => $id,
+        ]);
+    })->name('user-leaves');
+
+    Route::get('/holidays', function () {
+        return view('holidays');
+    })->name('holidays');
 });
 
 require __DIR__.'/auth.php';

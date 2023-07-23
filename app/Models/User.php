@@ -38,6 +38,11 @@ class User extends Authenticatable
         return $this->hasMany(Form::class, 'submitted_by');
     }
 
+    public function leaves()
+    {
+        return $this->hasMany(Leave::class);
+    }
+
     /**
      * The attributes that are mass assignable.
      *

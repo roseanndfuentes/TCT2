@@ -2,6 +2,10 @@
 
 @extends('layouts.base')
 
+@section('head')
+    <script src=" https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js "></script>
+@endsection
+
 @section('content')
     <div x-data="{ mobileNav: false }">
         @include('includes.static._mobile-sidebar')
