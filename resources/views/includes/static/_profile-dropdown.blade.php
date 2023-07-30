@@ -24,7 +24,7 @@
         <div class="p-1 mt-1 bg-white border rounded-md shadow-md border-neutral-200/70 text-neutral-700">
             <div class="px-2 py-1.5 text-sm font-semibold">My Account</div>
             <div class="h-px my-1 -mx-1 bg-neutral-200"></div>
-            <a href="#_"
+            <a href="{{ route('account-setting') }}"
                 class="relative flex cursor-default select-none hover:bg-neutral-100 items-center rounded px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                     stroke="currentColor" class="w-5 h-5 mr-2">

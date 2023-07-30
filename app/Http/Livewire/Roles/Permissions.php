@@ -6,7 +6,6 @@ use App\Services\PermissionsService;
 use Livewire\Component;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
-
 class Permissions extends Component
 {
     public $role;

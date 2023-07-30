@@ -64,14 +64,10 @@
         </div>
     </div>
     @include('includes.partials._productivity-report')
-    {{-- <div>
-        @include('includes.datatables._companies')
-    </div>
-
     <div>
-        @include('includes.modals._company-create')
+        @include('includes.modals._admin-productivity-selection')
     </div>
-
+    {{-- 
     <div>
         @include('includes.modals._company-edit')
     </div> --}}

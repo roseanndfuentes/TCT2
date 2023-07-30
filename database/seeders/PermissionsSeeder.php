@@ -118,5 +118,15 @@ class PermissionsSeeder extends Seeder
         $admin->givePermissionTo('manage role permissions');
         Permission::create(['name' => 'view billings']);
         $admin->givePermissionTo('view billings');
+        Permission::create(['name' => 'view productivity']);
+        $admin->givePermissionTo('view productivity');
+        Permission::create(['name' => 'view holidays calendar']);
+        $admin->givePermissionTo('view holidays calendar');
+        Permission::create(['name' => 'create holidays']);
+        $admin->givePermissionTo('create holidays');
+        Permission::create(['name' => 'edit holidays']);
+        $admin->givePermissionTo('edit holidays');
+        Permission::create(['name' => 'delete holidays']);
+        $admin->givePermissionTo('delete holidays');
     }
 }

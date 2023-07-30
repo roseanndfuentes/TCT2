@@ -54,6 +54,7 @@ class User extends Authenticatable
         'password',
         'created_by',
         'is_active',
+        'admin_productivity_collection'
     ];
 
     /**

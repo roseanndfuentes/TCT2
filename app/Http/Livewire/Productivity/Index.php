@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Productivity;
 
+use App\Models\AdminProductivitySegment;
 use App\Models\Holiday;
 use App\Models\Segment;
 use App\Models\User;
@@ -10,6 +11,17 @@ use Livewire\Component;
 
 class Index extends Component
 {
+    public $showAdminProductivityModal = false;
+
+    public $selectedProductivitySegment = '';
+
+    public $adminProductivitySegmentCollection = [];
+
+    public $adminProductivitySegmentCollectionIds= [];
+
+    public $oaasProductivityPercentage = 0;
+     
+
     public $holidayTotalMinutes = 0;
 
     public $segmentList = [];
@@ -28,10 +40,14 @@ class Index extends Component
 
     public $totalTimeSpentInMins = 0;
 
-    public $tatalMinsInAWeek = 2400;
+    public $totalMinsInAWeek = 2400;
+
+    public $adminProductivityPercentage = 0;
 
     protected $queryString = [
         'selected_id' => ['except' => '', 'as' => 'q'],
+        'weekStart' => ['except' => '', 'as' => 'ws'],
+        'weekEnd' => ['except' => '', 'as' => 'we'],
     ];
 
     public function selectUser($id)
@@ -57,13 +73,14 @@ class Index extends Component
     public function render()
     {
         $this->getSubmittedForms();
-
         return view('livewire.productivity.index');
     }
 
     public function getSubmittedForms()
     {
         if ($this->selected) {
+            $this->adminProductivitySegmentCollectionIds = AdminProductivitySegment::query()
+                    ->where('user_id', $this->selected->id)->pluck('segment_id')->toArray();
             $this->submittedForms = DB::table('forms')
                 ->when($this->weekStart && $this->weekEnd, function ($query) {
                     $query->whereDate('forms.created_at', '>=', $this->weekStart)
@@ -71,6 +88,7 @@ class Index extends Component
                 })
                 ->where('forms.submitted_by', $this->selected->id)
                 ->get();
+
 
             $totalLeaveInMins = $this->selected->leaves->sum('computed_minutes');
 
@@ -80,8 +98,31 @@ class Index extends Component
                 ->get()
                 ->sum('computed_minutes');
                 
-            $this->totalTimeSpentInMins = $this->tatalMinsInAWeek - $totalLeaveInMins - $this->holidayTotalMinutes;
+            $this->totalTimeSpentInMins = $this->totalMinsInAWeek - $totalLeaveInMins - $this->holidayTotalMinutes;
+            $this->adminProductivityPercentage = $this->submittedForms->whereIn('segment_id', $this->adminProductivitySegmentCollectionIds)
+                                                ->sum('total_time_spent') / $this->totalTimeSpentInMins;
 
+            $this->oaasProductivityPercentage = $this->submittedForms->whereNotIn('segment_id', $this->adminProductivitySegmentCollectionIds)
+                                                ->sum('total_time_spent') / $this->totalTimeSpentInMins;
         }
+    }
+
+    public function saveSegment()
+    {
+        $this->validate([
+            'selectedProductivitySegment' => 'required'
+        ]);
+
+        AdminProductivitySegment::create([
+            'segment_id' => $this->selectedProductivitySegment,
+            'user_id' => $this->selected->id
+        ]);
+
+        $this->showAdminProductivityModal = false;
+    }
+
+    public function deleteSegment($id)
+    {
+        AdminProductivitySegment::where('segment_id', $id)->where('user_id', $this->selected->id)->delete();
     }
 }

@@ -22,9 +22,8 @@
             <x-input-label for="category" value="Category" required />
             <div class="mt-1">
                 <x-select-input wire:model.defer="editTaskForm.category_id" name="category" class="w-full">
-                    <option value="" hidden>Select</option>
+                    <option value="">Not Applicable</option>
                     @foreach ($categories as $key => $category)
-                        <option value="">Not Application</option>
                         <option value="{{ $category->id }}">{{ $category->name }}</option>
                     @endforeach
                 </x-select-input>

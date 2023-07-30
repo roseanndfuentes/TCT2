@@ -51,5 +51,10 @@ class PermissionsService
         'view all submissions' => 'Allow this role to view all form submissions (including other users\' submissions)',
         'view submissions' => 'Allow this role to view form his/her own submissions',
         'view billings' => 'Allow this role to view billings',
+        'view productivity' => 'Allow this role to view productivity',
+        'view holidays calendar' => 'Allow this role to view holidays calendar',
+        'create holidays' => 'Allow this role to create holidays',
+        'edit holidays' => 'Allow this role to edit holidays',
+        'delete holidays' => 'Allow this role to delete holidays',
     ];
 }
