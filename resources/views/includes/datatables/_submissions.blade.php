@@ -32,6 +32,10 @@
                 <div class="flex space-x-2 items-center justify-end">
                     <x-button href="/submissions/form/{{ $form->id }}/starter" flat icon="eye" primary
                         label="Open" />
+                    @can('edit form')
+                        <x-button href="/submissions/form/{{ $form->id }}/edit" flat icon="pencil" warning
+                            label="Edit" />
+                    @endcan
                 </div>
             </x-tct.tcell>
         </tr>

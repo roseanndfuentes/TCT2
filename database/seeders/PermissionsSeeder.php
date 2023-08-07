@@ -48,7 +48,11 @@ class PermissionsSeeder extends Seeder
         $admin->givePermissionTo($view_submission);
         $agent->givePermissionTo($view_submission);
         $start_form = Permission::create(['name' => 'start form']);
+        $admin->givePermissionTo($start_form);
         $agent->givePermissionTo($start_form);
+        $edit_form = Permission::create(['name' => 'edit form']);
+        $admin->givePermissionTo($edit_form);
+        $agent->givePermissionTo($edit_form);
         Permission::create(['name' => 'view tasks']);
         $admin->givePermissionTo('view tasks');
         Permission::create(['name' => 'view task']);

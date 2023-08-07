@@ -50,6 +50,12 @@ Route::middleware(['auth', 'is_active'])->group(function () {
         ]);
     })->name('start-form')->middleware('can:start form');
 
+    Route::get('/submissions/form/{id}/edit', function ($id) {
+        return view('form-edit', [
+            'id' => $id,
+        ]);
+    })->name('edit-form')->middleware('can:edit form');
+
     Route::get('/tasks/{id}/questions', function ($id) {
         return view('task-questions', [
             'id' => $id,

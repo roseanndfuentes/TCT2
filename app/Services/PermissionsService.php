@@ -17,6 +17,7 @@ class PermissionsService
         'delete role' => 'Allow this role to delete role',
         'view submission' => 'Allow this role to view form submissions',
         'start form' => 'Allow this role to start a new form',
+        'edit form' => 'Allow this role to edit submitted form',
         'view tasks' => 'Allow this role to view tasks',
         'view task' => 'Allow this role to view task details',
         'create task' => 'Allow this role to create task',

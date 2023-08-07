@@ -35,6 +35,7 @@ class Index extends Component
         $this->questions = TaskQuestion::where('task_id', $this->form->task_id)->get();
 
         $this->persistedAnswers = $this->form->answers;
+        
         $this->initialInterview = $this->form->initial_review;
 
         $this->fillIntialForm($this->persistedAnswers);
