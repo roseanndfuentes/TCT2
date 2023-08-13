@@ -13,6 +13,9 @@
             dateClick: function(info) {
                 $wire.create(info.dateStr);
             },
+            eventClick: function(info) {
+                $wire.edit(info.event.id);
+            }
         })
         calendar.render()
     }
@@ -24,5 +27,8 @@ renderCalendar()"
     </div>
     <div>
         @include('includes.modals._holiday-create')
+    </div>
+    <div>
+        @include('includes.modals._holiday-edit')
     </div>
 </div>
