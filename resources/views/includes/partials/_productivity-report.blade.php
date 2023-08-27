@@ -114,6 +114,7 @@
                 label="({{ $segment->company->name }}-{{ $segment->name }})" value="{{ $totalTimeSpent }} mins" />
         @endforeach
         <x-tct.productivity-row wire:key="holidays" label="Holidays" value="{{ $holidayTotalMinutes }} mins" />
+        <x-tct.productivity-row wire:key="total-leave" label="Total Leave" value="{{ $totalLeave }} mins" />
         <x-tct.productivity-row wire:key="expected-total-time-spent" label="Expected Total Time Spent"
             value="{{ $totalTimeSpentInMins }} mins" />
     </tbody>

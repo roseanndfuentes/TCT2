@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Form;
 
+use App\Models\ActivityLog;
 use App\Models\Form;
 use Livewire\Component;
 use App\Models\TaskQuestion;
@@ -72,6 +73,14 @@ class Edit extends Component
                 'form_id' => $this->formId,
             ]);
         }
+
+        ActivityLog::create([
+            'user_id'=>auth()->user()->id,
+            'action'=>'EDIT',
+            'task_id'=>$this->form->record_number,
+            'description'=>auth()->user()->name.' edited task : '.$this->form->record_number ,
+            'form_id'=>$this->form->id,
+        ]);
 
         $this->notification()->success('Form updated successfully');
     }

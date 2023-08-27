@@ -40,9 +40,12 @@ class Index extends Component
 
     public $totalTimeSpentInMins = 0;
 
-    public $totalMinsInAWeek = 2400;
+    public $totalMinsInAWeek = 2250;
 
     public $adminProductivityPercentage = 0;
+
+    public $totalLeave = 0;
+
 
     protected $queryString = [
         'selected_id' => ['except' => '', 'as' => 'q'],
@@ -91,7 +94,7 @@ class Index extends Component
 
 
             $totalLeaveInMins = $this->selected->leaves->sum('computed_minutes');
-
+            $this->totalLeave = $totalLeaveInMins;
             $this->holidayTotalMinutes = Holiday::query()
                 ->where('date_start', '>=', $this->weekStart)
                 ->where('date_end', '<=', $this->weekEnd)

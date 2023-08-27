@@ -34,6 +34,8 @@ class Index extends Component
         'name' => '',
     ];
 
+    public $modifiables = [];
+
     public function validateEditCompanyForm()
     {
         $this->validate([
@@ -78,7 +80,6 @@ class Index extends Component
     {
         if (auth()->user()->cannot('edit company')) {
             $this->notification()->error('You are not authorized to edit company');
-
             return;
         }
 
@@ -109,6 +110,18 @@ class Index extends Component
         $this->showEditModal = false;
     }
 
+    public function delete($id)
+    {
+        $company = Company::findOrfail($id);
+        $company->delete();
+        $this->notification()->success('Company delete successfully');
+    }
+
+    public function mount()
+    {
+     
+    }
+
     public function render()
     {
         return view('livewire.companies.index', [
@@ -118,4 +131,5 @@ class Index extends Component
                 ->paginate(10),
         ]);
     }
+ 
 }

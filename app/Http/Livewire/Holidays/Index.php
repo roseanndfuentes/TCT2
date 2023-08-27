@@ -64,7 +64,7 @@ class Index extends Component
             'name' => $dto['name'],
             'date_start' => $dto['date_start'],
             'date_end' => $this->createForm['date_end'] == '' ? $dto['date_start'] : $dto['date_end'],
-            'computed_minutes' => $this->createForm['date_end'] == '' ? 480 : $this->getComputedMinutes(number_format($diff->format('%a') + 1)),
+            'computed_minutes' => $this->createForm['date_end'] == '' ? 450 : $this->getComputedMinutes(number_format($diff->format('%a') + 1)),
         ]);
 
         $this->showCreateModal = false;
@@ -117,7 +117,7 @@ class Index extends Component
             'name' => $dto['name'],
             'date_start' => $dto['date_start'],
             'date_end' => $this->editForm['date_end'] == '' ? $dto['date_start'] : $dto['date_end'],
-            'computed_minutes' => $this->editForm['date_end'] == '' ? 480 : $this->getComputedMinutes(number_format($diff->format('%a') + 1)),
+            'computed_minutes' => $this->editForm['date_end'] == '' ? 450 : $this->getComputedMinutes(number_format($diff->format('%a') + 1)),
         ]);
 
         $this->showEditModal = false;
@@ -134,7 +134,7 @@ class Index extends Component
 
     public function getComputedMinutes($noOfDays)
     {
-        $computedMinutes = $noOfDays * 480;
+        $computedMinutes = $noOfDays * 450;
 
         return $computedMinutes;
     }

@@ -70,6 +70,10 @@ Route::middleware(['auth', 'is_active'])->group(function () {
         return view('billings');
     })->name('billings')->middleware('can:view billings');
 
+    Route::get('/activity-logs', function () {
+        return view('request-access');
+    })->name('activity-logs');
+
     Route::get('/roles/{id}/permissions', function ($id) {
         return view('role-permissions', [
             'id' => $id,

@@ -73,8 +73,7 @@ class Index extends Component
         }
 
         $this->validateCreateSubmissionForm();
-
-        $form = Form::create([
+        $form =  Form::create([
             'status' => Form::IN_PROGRESS,
             'record_number' => $this->generateRecordNumber(),
             'submitted_by' => auth()->user()->id,
@@ -84,7 +83,6 @@ class Index extends Component
             'task_id' => $this->createForm['task_id'],
             'category_id' => $this->tasks->find($this->createForm['task_id'])->category_id,
         ]);
-
         return redirect()->route('start-form', ['id' => $form->id]);
     }
 

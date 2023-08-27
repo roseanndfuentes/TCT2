@@ -38,6 +38,8 @@ class Index extends Component
     // modals
     public $showCreateSegmentModal = false;
 
+    public $showEditSegmentModal = false;
+
     public $showCreateTaskModal = false;
 
     public $showEditTaskModal = false;
@@ -48,10 +50,14 @@ class Index extends Component
     public $createSegmentForm = [
         'name' => '',
     ];
+    
+    public $editSegmentForm = [
+        'name' => '',
+    ];
 
     public $createTaskForm = [
         'name' => '',
-        'category_id' => '',
+        'category_id' => null,
         'is_document_review_reference' => 0,
         'per_company_in_review' => 0,
         'review_starter' => 0,
@@ -60,7 +66,7 @@ class Index extends Component
 
     public $editTaskForm = [
         'name' => '',
-        'category_id' => '',
+        'category_id' => null,
         'is_document_review_reference' => 0,
         'per_company_in_review' => 0,
         'review_starter' => 0,
@@ -131,7 +137,7 @@ class Index extends Component
 
         $this->createTaskForm = [
             'name' => '',
-            'category_id' => '',
+            'category_id' => null,
             'is_document_review_reference' => 0,
             'per_company_in_review' => 0,
             'review_starter' => 0,
@@ -202,7 +208,7 @@ class Index extends Component
 
         $this->editTaskForm = [
             'name' => '',
-            'category_id' => '',
+            'category_id' => null,
             'is_document_review_reference' => 0,
             'per_company_in_review' => 0,
             'review_starter' => 0,
@@ -237,6 +243,43 @@ class Index extends Component
         }
         $this->showTask = Task::find($id);
         $this->showTaskModal = true;
+    }
+
+    public function deleteSegment($id)
+    {
+       try {
+        $segment = Segment::findOrfail($id);
+        $segment->delete();
+        $this->notification()->success('Segment deleted successfully');
+       } catch (\Throwable $th) {
+        return  $this->notification()->success('Something went wrong upon deletion');
+       }
+    }
+
+    public function editSegment()
+    {
+        $segment = Segment::findOrFail($this->s_id);
+
+        $this->editSegmentForm['name'] = $segment->name;
+
+        $this->showEditSegmentModal = true;
+    }
+    
+    public function updateSegment()
+    {
+        $this->validate([
+            'editSegmentForm.name'=>'required',
+        ],[],['editSegmentForm.name' => 'name']);
+
+        $segment = Segment::findOrFail($this->s_id);
+
+        $segment->update([
+            'name' => $this->editSegmentForm['name'],
+        ]);
+
+        $this->notification()->success('Segment update successfully');
+
+        $this->showEditSegmentModal = false;
     }
 
     public function render()

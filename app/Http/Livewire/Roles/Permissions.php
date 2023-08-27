@@ -12,6 +12,10 @@ class Permissions extends Component
 
     public $search = '';
 
+    public $queryString = ['search'=>[
+        'except'=>''
+    ]];
+
     public $description = PermissionsService::DESCRIPTIONS;
 
     public $queryStrings = ['search' => ['except' => '']];

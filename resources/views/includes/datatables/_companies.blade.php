@@ -12,9 +12,20 @@
             </x-tct.tcell>
             <x-tct.tcell>
                 <div class="flex space-x-2 items-center justify-end">
-                    <x-button warning wire:click="edit({{ $company->id }})" flat icon="pencil" gray label="Edit" />
+                    @can('edit company')
+                        <x-button warning wire:click="edit({{ $company->id }})" flat icon="pencil" label="Edit" />
+                    @endcan
                     <x-button primary href="{{ route('company-settings', ['id' => $company->id]) }}" flat icon="pencil"
                         gray label="Manage" icon="cog" />
+                    @can('delete company')
+                        <x-button flat icon="trash"
+                            x-on:confirm="{
+                            title : 'Delete Company',
+                            description : 'Are you sure you want to delete this record?',
+                            method:'delete', 
+                            params : '{{ $company->id }}' }"
+                            negative label="Delete" />
+                    @endcan
                 </div>
             </x-tct.tcell>
         </tr>

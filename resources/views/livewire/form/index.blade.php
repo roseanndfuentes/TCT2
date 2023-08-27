@@ -42,10 +42,15 @@
         <div class="border rounded-lg">
             <x-card shadow="none" title="Initial Interview" x-animate>
                 @if ($form->isInProgress())
-                    <x-select-input wire:model="initialInterview" class="w-full">
+                    <div class="flex space-x-2 items-center">
+                        <span>NO</span>
+                        <x-toggle lg wire:model.defer="initialInterview" />
+                        <span>YES</span>
+                    </div>
+                    {{-- <x-select-input wire:model="initialInterview" class="w-full">
                         <option value="1">Yes</option>
                         <option value="0">No</option>
-                    </x-select-input>
+                    </x-select-input> --}}
                 @else
                     <x-badge>
                         {{ $form->initial_review ? 'Yes' : 'No' }}

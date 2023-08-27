@@ -74,9 +74,9 @@ class Leaves extends Component
     public function updatedCreateFormShiftType($value)
     {
         if ($value == 'FULL_SHIFT') {
-            $this->createForm['computed_minutes'] = 480;
+            $this->createForm['computed_minutes'] = 450;
         } else {
-            $this->createForm['computed_minutes'] = 240;
+            $this->createForm['computed_minutes'] = 225;
         }
     }
 

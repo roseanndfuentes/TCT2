@@ -2,6 +2,8 @@
 
 namespace App\Http\Livewire\Dashboard;
 
+use App\Models\Form;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
@@ -35,6 +37,7 @@ class StatisticsOverview extends Component
                 ->selectRaw("count(case when status = 'in_progress' then 1 end) as in_progress")
                 ->first(),
             'otherStats' => $this->getOtherStats(),
+            'getTotalMinsToday'=>Form::whereDate('submitted_at', Carbon::today())->sum('total_time_spent'),
         ]);
     }
 }

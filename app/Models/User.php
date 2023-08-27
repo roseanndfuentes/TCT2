@@ -86,4 +86,9 @@ class User extends Authenticatable
     {
         return $this->belongsTo(User::class, 'created_by');
     }
+
+    public function activity_logs()
+    {
+        return $this->hasMany(ActivityLog::class);
+    }
 }
