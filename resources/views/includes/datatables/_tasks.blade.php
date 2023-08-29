@@ -39,6 +39,14 @@
                     <x-button wire:click="showTask({{ $task->id }})" flat icon="eye" gray label="View Details" />
                     <x-button href="{{ route('task-questions', ['id' => $task->id]) }}" flat icon="clipboard-list" primary
                         label="Questions" />
+                    <x-button
+                        x-on:confirm="{
+                            title : 'Delete Task',
+                            description : 'Are you sure you want to delete this record ? ',
+                            method:'delete',
+                            params : {{ $task->id }}
+                        }"
+                        flat icon="trash" negative label="Delete" />
                 </div>
             </x-tct.tcell>
         </tr>

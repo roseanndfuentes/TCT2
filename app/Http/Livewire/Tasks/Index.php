@@ -282,6 +282,13 @@ class Index extends Component
         $this->showEditSegmentModal = false;
     }
 
+    public function delete($taskId)
+    {
+        Task::findOrFail($taskId)->delete();
+
+        $this->notification()->success('Task delete successfully');
+    }
+
     public function render()
     {
         $this->company = $this->loadCompany();
