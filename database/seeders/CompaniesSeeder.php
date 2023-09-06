@@ -13,7 +13,7 @@ class CompaniesSeeder extends Seeder
      */
     public function run(): void
     {
-        $admin = User::role('Admin')->first();
+        $admin = User::role('ADMIN')->first();
 
         Company::create([
             'name' => 'Payreto',
