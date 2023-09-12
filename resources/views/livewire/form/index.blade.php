@@ -2,7 +2,7 @@
     @include('includes.partials._form-details')
     <div class="flex space-x-2">
         @if ($form->isInProgress())
-            <x-warning-button wire:click="pause" class="flex items-center">
+            <x-warning-button wire:click="$set('pauseRemarkModal',true)" class="flex items-center">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
                     <path fill-rule="evenodd"
                         d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zM9 8.25a.75.75 0 00-.75.75v6c0 .414.336.75.75.75h.75a.75.75 0 00.75-.75V9a.75.75 0 00-.75-.75H9zm5.25 0a.75.75 0 00-.75.75v6c0 .414.336.75.75.75H15a.75.75 0 00.75-.75V9a.75.75 0 00-.75-.75h-.75z"
@@ -88,5 +88,23 @@
                 Back to top
             </x-secondary-button>
         </a>
+    </div>
+
+
+    <div id="pause-remark-modal">
+        <x-modal.card title="Remark" wire:model.defer="pauseRemarkModal">
+            <x-textarea wire:model.defer="pause_remark" label="Pause Remark" placeholder="Your remark" rows="4" />
+            <x-slot:footer>
+                <div class="flex justify-end items-center space-x-2">
+                    <x-secondary-button x-on:click="close">
+                        Cancel
+                    </x-secondary-button>
+                    <x-primary-button wire:click="pause" wire:loading.attr="disabled">
+                        <span wire:loading.remove wire:target="pause">Submit & Pause</span>
+                        <span wire:loading wire:target="pause">Processing...</span>
+                    </x-primary-button>
+                </div>
+            </x-slot:footer>
+        </x-modal.card>
     </div>
 </div>

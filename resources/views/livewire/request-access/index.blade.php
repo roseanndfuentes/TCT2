@@ -3,7 +3,7 @@
         <thead>
             <thead>
                 <td colspan="2" class="py-2 px-4 font-bold text-indigo-700 border border-gray-200">
-                    Tast Activity Logs
+                    Task Activity Logs
                 </td>
             </thead>
         </thead>

@@ -161,6 +161,16 @@ class Index extends Component
         $this->roles = Role::all();
     }
 
+    public function delete($id)
+    {
+        User::findOrFail($id)->delete();
+
+        $this->notification()->success(
+            $title='Success',
+            $description='User has been deleted successfully',
+        );
+    }
+
     public function render()
     {
         return view('livewire.users.index', [

@@ -38,12 +38,19 @@
                     <x-button warning wire:click="edit({{ $user->id }})" flat icon="pencil" label="Edit" />
                     <x-button primary href="{{ route('user-leaves', ['id' => $user->id]) }}" flat icon="paper-clip"
                         label="Manage Leaves" />
+                    <x-button flat icon="trash"
+                        x-on:confirm="{
+                        title : 'Delete User',
+                        description : 'Are you sure you want to delete this record?',
+                        method:'delete', 
+                        params : '{{ $user->id }}' }"
+                        negative label="Delete" />
                 </div>
             </x-tct.tcell>
         </tr>
     @empty
         <tr>
-            <x-tct.empty-table colspan="4" />
+            <x-tct.empty-table colspan="7" />
         </tr>
     @endforelse
     <x-slot:footer>

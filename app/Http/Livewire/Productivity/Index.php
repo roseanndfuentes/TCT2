@@ -93,7 +93,8 @@ class Index extends Component
                 ->get();
 
 
-            $totalLeaveInMins = $this->selected->leaves->sum('computed_minutes');
+            $totalLeaveInMins = $this->selected->leaves()->whereDate('created_at', '>=', $this->weekStart)
+            ->whereDate('created_at', '<=', $this->weekEnd)->sum('computed_minutes');
             $this->totalLeave = $totalLeaveInMins;
             $this->holidayTotalMinutes = Holiday::query()
                 ->where('date_start', '>=', $this->weekStart)

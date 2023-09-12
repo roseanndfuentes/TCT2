@@ -67,6 +67,22 @@
                     @endif
                 </td>
             </tr>
+            <tr wire:key="pause-remarks-3214809238049ojr2u43023984er23hruio">
+                <td colspan="4" class="py-2 px-4 font-bold text-gray-700 border border-gray-200">
+                    Pause Remarks
+                </td>
+            </tr>
+            @forelse ($remarks as $remark)
+                <tr>
+                    <td colspan="4" class="py-2 px-4  text-gray-500 border border-gray-200">
+                        <p>
+                            ({{ $remark->created_at->diffForHumans() }})
+                            <span class="text-gray-700 font-semibold">{{ $remark->remarks }}</span>
+                        </p>
+                    </td>
+                </tr>
+            @empty
+            @endforelse
         </tbody>
     </table>
 </div>

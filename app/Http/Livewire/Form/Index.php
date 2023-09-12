@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Form;
 
 use App\Models\Form;
+use App\Models\PauseRemark;
 use App\Models\TaskQuestion;
 use Livewire\Component;
 use WireUi\Traits\Actions;
@@ -10,6 +11,10 @@ use WireUi\Traits\Actions;
 class Index extends Component
 {
     use Actions;
+
+    public $pauseRemarkModal = false;
+
+    public $pause_remark = '';
 
     public $form;
 
@@ -44,15 +49,28 @@ class Index extends Component
     public function render()
     {
 
-        return view('livewire.form.index');
+        return view('livewire.form.index',[
+            'remarks'=>PauseRemark::where('form_id',$this->formId)->latest()->get()
+        ]);
     }
 
     public function pause()
     {
+
+        $this->validate([
+            'pause_remark'=>'required'
+        ]);
+        PauseRemark::create([
+            'form_id'=>$this->formId,
+            'remarks'=>$this->pause_remark,
+        ]);
+
         $this->form->pause();
 
         $this->form->refresh();
         $this->notification()->success('Form paused successfully');
+
+        $this->pauseRemarkModal = false;
     }
 
     public function resume()

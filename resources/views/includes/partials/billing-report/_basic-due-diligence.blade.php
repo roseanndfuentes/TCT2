@@ -5,12 +5,18 @@
         </span>
     </td>
     <td class="py-2 px-4 text-gray-500 border border-gray-200">
+        @php
+            $overAllTotal = $overAllTotal + $company->per_company_in_review_amount;
+        @endphp
         {{ number_format($company->per_company_in_review_amount, 2) }}
     </td>
     <td class="py-2 px-4 text-gray-500 border border-gray-200">
         {{ $data['per_company_in_review'] }}
     </td>
     <td class="py-2 px-4 text-gray-500 border border-gray-200">
+        @php
+            $overAllTotal = $overAllTotal + $data['per_company_in_review'] * $company->per_company_in_review_amount;
+        @endphp
         {{ number_format($data['per_company_in_review'] * $company->per_company_in_review_amount, 2) }}
     </td>
     <td class="py-2 px-4 text-gray-500 border border-gray-200">
@@ -39,6 +45,9 @@
         {{ $data['dvr_one'] }}
     </td>
     <td class="py-2 px-4 text-gray-500 border border-gray-200">
+        @php
+            $overAllTotal = $overAllTotal + $data['dvr_one'] * $company->dvr_one;
+        @endphp
         {{ number_format($data['dvr_one'] * $company->dvr_one, 2) }}
     </td>
     <td class="py-2 px-4 text-gray-500 border border-gray-200">
@@ -57,6 +66,9 @@
         {{ $data['dvr_two'] }}
     </td>
     <td class="py-2 px-4 text-gray-500 border border-gray-200">
+        @php
+            $overAllTotal = $overAllTotal + $data['dvr_two'] * $company->dvr_two;
+        @endphp
         {{ number_format($data['dvr_two'] * $company->dvr_two, 2) }}
     </td>
     <td class="py-2 px-4 text-gray-500 border border-gray-200">
@@ -75,6 +87,9 @@
         {{ $data['dvr_three'] }}
     </td>
     <td class="py-2 px-4 text-gray-500 border border-gray-200">
+        @php
+            $overAllTotal = $overAllTotal + $data['dvr_three'] * $company->dvr_three;
+        @endphp
         {{ number_format($data['dvr_three'] * $company->dvr_three, 2) }}
     </td>
     <td class="py-2 px-4 text-gray-500 border border-gray-200">
