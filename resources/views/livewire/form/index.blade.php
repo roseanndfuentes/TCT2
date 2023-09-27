@@ -40,7 +40,7 @@
 
     <div class="space-y-3">
         <div class="border rounded-lg">
-            <x-card shadow="none" title="Initial Interview" x-animate>
+            <x-card shadow="none" title="Initial Review" x-animate>
                 @if ($form->isInProgress())
                     <div class="flex space-x-2 items-center">
                         <span>NO</span>
