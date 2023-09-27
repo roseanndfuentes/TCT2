@@ -14,9 +14,17 @@
                             Cannot Edit Admin Role
                         </x-badge>
                     @else
-                        <x-button warning wire:click="edit({{ $role->id }})" flat icon="pencil" gray label="Edit" />
-                        <x-button href="{{ route('role-permissions', ['id' => $role->id]) }}" primary flat icon="pencil"
-                            gray label="Permissions" icon="cog" />
+                        <x-button warning wire:click="edit({{ $role->id }})" flat icon="pencil" label="Edit" />
+                        <x-button href="{{ route('role-permissions', ['id' => $role->id]) }}" flat icon="pencil" gray
+                            label="Permissions" icon="cog" />
+                        <x-button negative
+                            x-on:confirm="{
+                            title :'Delete Role',
+                            description : 'Are you sure you want to delete this record',
+                            method:'delete',
+                            params : {{ $role->id }}
+                        }"
+                            flat icon="trash" label="Delete" />
                     @endif
                 </div>
             </x-tct.tcell>

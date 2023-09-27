@@ -102,6 +102,12 @@ class Index extends Component
         $this->notification()->success('Role updated successfully');
     }
 
+    public function delete(Role $role)
+    {
+        $role->delete();
+        $this->notification()->success('Role deleted successfully');
+    }
+
     public function render()
     {
         return view('livewire.roles.index', [
