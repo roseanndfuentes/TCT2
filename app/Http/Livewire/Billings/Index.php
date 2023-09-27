@@ -120,7 +120,7 @@ class Index extends Component
         $this->data['per_company_in_review'] = $per_review;
         $this->data['dvr_one'] = $dvr_count > 60 ? 60 : $dvr_count; 
         if($dvr_count > 60){
-            $this->data['dvr_two'] = $dvr_count >= 150 ? 150 : $dvr_count - 60;
+            $this->data['dvr_two'] = $dvr_count > 150 ? 150 : $dvr_count - 60;
         }else{
             $this->data['dvr_two'] = 0;
         }
