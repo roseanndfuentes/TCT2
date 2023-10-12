@@ -53,7 +53,105 @@
                 @include('includes.partials.billing-report._scaper')
                 <x-report-sub-header modal-name="editBasicDiligenceHeaderModal" allow-edit="true"
                     name="{{ $headers['basic_document_due_diligence_header'] }}" total="" />
-                @include('includes.partials.billing-report._basic-due-diligence')
+                <tr>
+                    <td class="py-2 px-4 font-bold text-gray-700 border border-gray-200">
+                        <span class="ml-3">
+                            per company in review
+                        </span>
+                    </td>
+                    <td class="py-2 px-4 text-gray-500 border border-gray-200">
+
+                        {{ number_format($company->per_company_in_review_amount, 2) }}
+                    </td>
+                    <td class="py-2 px-4 text-gray-500 border border-gray-200">
+                        {{-- @php
+                            $overAllTotal = $overAllTotal + $data['per_company_in_review'];
+                        @endphp --}}
+                        {{ $data['per_company_in_review'] }}
+                    </td>
+                    <td class="py-2 px-4 text-gray-500 border border-gray-200">
+                        @php
+                            $pcirTotal = $data['per_company_in_review'] * $company->per_company_in_review_amount;
+                            $overAllTotal = $overAllTotal + $pcirTotal;
+                        @endphp
+                        {{ number_format($data['per_company_in_review'] * $company->per_company_in_review_amount, 2) }}
+                    </td>
+                    <td class="py-2 px-4 text-gray-500 border border-gray-200">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="py-2 px-4 font-bold text-gray-700 border border-gray-200">
+                        <span class="ml-3">
+                            Document Validation Review
+                        </span>
+                    </td>
+                    <td colspan="4" class="py-2 px-4 text-gray-500 border border-gray-200">
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="py-2 px-4 font-bold text-gray-700 border border-gray-200">
+                        <span class="ml-3">
+                            1-60
+                        </span>
+                    </td>
+                    <td class="py-2 px-4 text-gray-500 border border-gray-200">
+                        {{ $company->dvr_one }}
+                    </td>
+                    <td class="py-2 px-4 text-gray-500 border border-gray-200">
+                        {{ $data['dvr_one'] }}
+                    </td>
+                    <td class="py-2 px-4 text-gray-500 border border-gray-200">
+                        @php
+                            $overAllTotal = $overAllTotal + $data['dvr_one'] * $company->dvr_one;
+                        @endphp
+                        {{ number_format($data['dvr_one'] * $company->dvr_one, 2) }}
+                    </td>
+                    <td class="py-2 px-4 text-gray-500 border border-gray-200">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="py-2 px-4 font-bold text-gray-700 border border-gray-200">
+                        <span class="ml-3">
+                            61-150
+                        </span>
+                    </td>
+                    <td class="py-2 px-4 text-gray-500 border border-gray-200">
+                        {{ $company->dvr_two }}
+                    </td>
+                    <td class="py-2 px-4 text-gray-500 border border-gray-200">
+                        {{ $data['dvr_two'] }}
+                    </td>
+                    <td class="py-2 px-4 text-gray-500 border border-gray-200">
+                        @php
+                            $overAllTotal = $overAllTotal + $data['dvr_two'] * $company->dvr_two;
+                        @endphp
+                        {{ number_format($data['dvr_two'] * $company->dvr_two, 2) }}
+                    </td>
+                    <td class="py-2 px-4 text-gray-500 border border-gray-200">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="py-2 px-4 font-bold text-gray-700 border border-gray-200">
+                        <span class="ml-3">
+                            151-400
+                        </span>
+                    </td>
+                    <td class="py-2 px-4 text-gray-500 border border-gray-200">
+                        {{ $company->dvr_three }}
+                    </td>
+                    <td class="py-2 px-4 text-gray-500 border border-gray-200">
+                        {{ $data['dvr_three'] }}
+                    </td>
+                    <td class="py-2 px-4 text-gray-500 border border-gray-200">
+                        @php
+                            $overAllTotal = $overAllTotal + $data['dvr_three'] * $company->dvr_three;
+                        @endphp
+                        {{ number_format($data['dvr_three'] * $company->dvr_three, 2) }}
+                    </td>
+                    <td class="py-2 px-4 text-gray-500 border border-gray-200">
+                    </td>
+                </tr>
                 <x-category-total
                     total="{{ number_format($data['per_company_in_review'] * $company->per_company_in_review_amount + $data['dvr_one'] * $company->dvr_one + $data['dvr_two'] * $company->dvr_two + $data['dvr_three'] * $company->dvr_three, 2) }}" />
                 @php
