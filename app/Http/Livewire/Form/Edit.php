@@ -2,11 +2,14 @@
 
 namespace App\Http\Livewire\Form;
 
-use App\Models\ActivityLog;
 use App\Models\Form;
 use Livewire\Component;
-use App\Models\TaskQuestion;
 use WireUi\Traits\Actions;
+use App\Models\ActivityLog;
+use App\Models\FormHistory;
+use App\Models\TaskQuestion;
+use Illuminate\Support\Facades\DB;
+
 class Edit extends Component
 {
     use Actions;
@@ -43,36 +46,43 @@ class Edit extends Component
         $this->fillIntialForm($this->persistedAnswers);
     }
 
-    // public function updatedAnswersForm($value, $key)
-    // {
-    //     $this->form->answers()->updateOrCreate([
-    //         'question_id' => $key,
-    //     ], [
-    //         'content' => $value,
-    //         'form_id' => $this->formId,
-    //     ]);
-    // }
-
     public function render()
     {
         return view('livewire.form.edit');
     }
+
     public function update()
     {
-
         if(!auth()->user()->can('edit form')) {
             $this->dialog()->error('You are not authorized to update this form');
             return;
         }
-
         foreach ($this->answersForm as $key => $value) {
-            $this->form->answers()->updateOrCreate([
-                'question_id' => $key,
-            ], [
-                'content' => $value,
-                'form_id' => $this->formId,
-            ]);
+                $newEntry = $this->form->answers()->updateOrCreate([
+                    'question_id' => $key,
+                ], [
+                    'content' => $value,
+                    'form_id' => $this->formId,
+                ]);
+                $oldData =  $this->persistedAnswers->find($newEntry->id);
+                $contentHasBeenChange = $oldData->content !== $value;
+                if($contentHasBeenChange){
+                    $this->recordChangeHistory($newEntry->id,$oldData->content);
+                }
         }
+        // foreach ($this->answersForm as $key => $value) {
+        //     $oldData =  $this->persistedAnswers->where('',$key);
+        //     $contentHasBeenChange = $oldData->content !== $value;
+        //     if($contentHasBeenChange){
+        //         recordChangeHistory($oldData->id);
+        //     }
+        //     $this->form->answers()->updateOrCreate([
+        //         'question_id' => $key,
+        //     ], [
+        //         'content' => $value,
+        //         'form_id' => $this->formId,
+        //     ]);
+        // }
 
         ActivityLog::create([
             'user_id'=>auth()->user()->id,
@@ -83,5 +93,13 @@ class Edit extends Component
         ]);
 
         $this->notification()->success('Form updated successfully');
+    }
+
+    function recordChangeHistory($answerId,$oldValue,$inputKey = 'Default'){
+        FormHistory::create([
+            'answer_id'=>$answerId,
+            'old_data'=>$oldValue,
+            'input_key'=>$inputKey,
+        ]);
     }
 }

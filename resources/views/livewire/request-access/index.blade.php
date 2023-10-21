@@ -1,4 +1,8 @@
-<div>
+<div class="flex flex-col space-y-3">
+    <div class="flex space-x-2 items-center">
+        <x-input wire:model.debounce.500ms="search" type="search" icon="search" />
+        <x-input type="date" wire:model="dateFilter" format="YYYY-MM" />
+    </div>
     <table class="min-w-full bg-white border rounded-lg">
         <thead>
             <thead>
@@ -12,8 +16,8 @@
                 <tr wire:key="{{ $log->id }}">
                     <td class="py-4 px-4  text-gray-700 border border-gray-200">
                         <div class="flex space-x-2 items-center">
-                            <x-button sm warning href="/submissions/form/{{ $log->form_id }}/starter" flat icon="eye"
-                                label="View Task" />
+                            <x-button sm warning href="/submissions/form/{{ $log->form_id }}/starter?mode=traces" flat
+                                icon="eye" label="View Task" />
                             <span class="text-gray-200 ">|</span>
                             <div class="pl-3 flex flex-col">
                                 <div class="mb-1 flex items-center space-x-1">

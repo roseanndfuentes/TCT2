@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('answers', function (Blueprint $table) {
+        Schema::create('form_histories', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('form_id');
-            $table->unsignedBigInteger('question_id');
-            $table->string('content')->nullable();
+            $table->unsignedBigInteger('answer_id');
+            $table->string('input_key')->nullable();
+            $table->string('old_data');
             $table->timestamps();
         });
     }
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('answers');
+        Schema::dropIfExists('form_histories');
     }
 };

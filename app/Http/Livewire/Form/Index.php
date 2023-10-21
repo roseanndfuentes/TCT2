@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Form;
 
 use App\Models\Form;
+use App\Models\FormHistory;
 use App\Models\PauseRemark;
 use App\Models\TaskQuestion;
 use Livewire\Component;
@@ -33,6 +34,12 @@ class Index extends Component
 
     public $initialInterview = 1;
 
+    public $mode = '';
+
+    public $queryString = ['mode'];
+
+    public $changesHistory = [];
+
     public function mount($id)
     {
         $this->formId = $id;
@@ -44,6 +51,10 @@ class Index extends Component
         $this->initialInterview = $this->form->initial_review;
 
         $this->fillIntialForm($this->persistedAnswers);
+
+        if($this->mode === 'traces'){
+            $this->changesHistory = FormHistory::whereIn('answer_id',$this->persistedAnswers->pluck('id')->toArray())->get();
+        }   
     }
 
     public function render()
@@ -56,10 +67,12 @@ class Index extends Component
 
     public function pause()
     {
-
         $this->validate([
             'pause_remark'=>'required'
         ]);
+        // pause error message
+    
+
         PauseRemark::create([
             'form_id'=>$this->formId,
             'remarks'=>$this->pause_remark,
@@ -75,6 +88,14 @@ class Index extends Component
 
     public function resume()
     {
+        if(!$this->canStillResume()){
+            $this->dialog()->error(
+                $title ="Action failed",
+                $description = "You've still have on going task. Please submit before starting a new one."
+            );
+            return;
+        }
+
         $this->form->resume();
 
         $this->form->refresh();
@@ -84,7 +105,10 @@ class Index extends Component
     public function fillIntialForm()
     {
         foreach ($this->persistedAnswers as $answer) {
-            $this->answersForm[$answer->question_id] = $answer->content;
+            $this->answersForm[$answer->question_id] = [
+                'answer_id'=>$answer->id,
+                'value'=>$answer->content,
+            ];
         }
     }
 
@@ -131,4 +155,35 @@ class Index extends Component
         $this->form->refresh();
         $this->notification()->success('Form submitted successfully');
     }
+
+    public function clickPauseHandler()
+    {
+        if(!$this->canStillPause()){
+            $this->dialog()->error(
+                $title ="Action failed",
+                $description = "You've hit the limit for pausing tasks. Please finish or submit one task before pausing another."
+            );
+        return;
+       }
+       $this->pauseRemarkModal = true;
+    }
+
+    public function canStillPause()
+    {
+         $pauseFormsCount = Form::query()
+                    ->where('submitted_by',auth()->user()->id)
+                    ->where('status',Form::PAUSED)
+                    ->count();
+        return $pauseFormsCount < 2;
+    }
+
+    public function canStillResume()
+    {
+         $pauseFormsCount = Form::query()
+                    ->where('submitted_by',auth()->user()->id)
+                    ->where('status',Form::IN_PROGRESS)
+                    ->count();
+        return $pauseFormsCount === 0;
+    }
+    
 }

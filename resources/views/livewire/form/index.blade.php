@@ -2,7 +2,8 @@
     @include('includes.partials._form-details')
     <div class="flex space-x-2">
         @if ($form->isInProgress())
-            <x-warning-button wire:click="$set('pauseRemarkModal',true)" class="flex items-center">
+            <x-warning-button wire:click="clickPauseHandler" wire:loading.attr="disabled" wire:target="clickPauseHandler"
+                class="flex items-center">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
                     <path fill-rule="evenodd"
                         d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zM9 8.25a.75.75 0 00-.75.75v6c0 .414.336.75.75.75h.75a.75.75 0 00.75-.75V9a.75.75 0 00-.75-.75H9zm5.25 0a.75.75 0 00-.75.75v6c0 .414.336.75.75.75H15a.75.75 0 00.75-.75V9a.75.75 0 00-.75-.75h-.75z"
@@ -74,9 +75,24 @@
                                 rows="2" />
                         @endif
                     @else
-                        <p class="text-gray-700">
-                            {{ $answersForm[$question->id] ?? 'N/A' }}
-                        </p>
+                        <div class="flex flex-col space-y-3">
+                            <p class="text-gray-700">
+                                {{ $answersForm[$question->id]['value'] ?? 'N/A' }}
+                            </p>
+                            @php
+                                $trace = $changesHistory->where('answer_id', $answersForm[$question->id]['answer_id']);
+                            @endphp
+                            @forelse ($trace->reverse() as $item)
+                                <div>
+                                    <span class="text-xs">Changed at :
+                                        {{ date('M d, y H:i A', strtotime($item->created_at)) }}</span>
+                                    <pre class="border bg-gray-50 text-xs flex space-x-1 rounded-lg p-2">
+                                        <span>{{ $item->old_data }}</span>
+                                    </pre>
+                                </div>
+                            @empty
+                            @endforelse
+                        </div>
                     @endif
                 </x-card>
             </div>

@@ -72,6 +72,14 @@ class Index extends Component
             return;
         }
 
+        if(!$this->canStartNewForm()){
+            $this->dialog()->error(
+                $title ="Action failed",
+                $description = "You've still have on going task. Please submit before starting a new one."
+            );
+            return;
+        }
+
         $this->validateCreateSubmissionForm();
         $form =  Form::create([
             'status' => Form::IN_PROGRESS,
@@ -112,5 +120,15 @@ class Index extends Component
         $submitionCount = Form::count();
 
         return now()->format('Ymd').'-'.$initials.'-'.str_pad($submitionCount + 1, 11, '0', STR_PAD_LEFT);
+    }
+
+
+    public function canStartNewForm()
+    {
+         $pauseFormsCount = Form::query()
+                    ->where('submitted_by',auth()->user()->id)
+                    ->where('status',Form::IN_PROGRESS)
+                    ->count();
+        return $pauseFormsCount === 0;
     }
 }
