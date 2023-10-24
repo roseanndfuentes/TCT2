@@ -79,19 +79,21 @@
                             <p class="text-gray-700">
                                 {{ $answersForm[$question->id]['value'] ?? 'N/A' }}
                             </p>
-                            @php
-                                $trace = $changesHistory->where('answer_id', $answersForm[$question->id]['answer_id']);
-                            @endphp
-                            @forelse ($trace->reverse() as $item)
-                                <div>
-                                    <span class="text-xs">Changed at :
-                                        {{ date('M d, y H:i A', strtotime($item->created_at)) }}</span>
-                                    <pre class="border bg-gray-50 text-xs flex space-x-1 rounded-lg p-2">
-                                        <span>{{ $item->old_data }}</span>
-                                    </pre>
-                                </div>
-                            @empty
-                            @endforelse
+                            @if (count($changesHistory) > 0)
+                                @php
+                                    $trace = $changesHistory->where('answer_id', $answersForm[$question->id]['answer_id']);
+                                @endphp
+                                @forelse ($trace->reverse() as $item)
+                                    <div>
+                                        <span class="text-xs">Changed at :
+                                            {{ date('M d, y H:i A', strtotime($item->created_at)) }}</span>
+                                        <pre class="border bg-gray-50 text-xs flex space-x-1 rounded-lg p-2">
+                                    <span>{{ $item->old_data }}</span>
+                                </pre>
+                                    </div>
+                                @empty
+                                @endforelse
+                            @endif
                         </div>
                     @endif
                 </x-card>
