@@ -29,7 +29,7 @@
             class="w-[full] h-auto  border-indigo-500 bg-white space-x-3 p-5 flex items-start rounded-md shadow-sm border "
             x-transition>
             <div class="relative">
-                <p class="mb-1 text-sm text-gray-600">{{ $remarks }}</p>
+                <p class="mb-1 text-sm text-gray-600">- {{ $remarks }}</p>
             </div>
         </div>
     </div>
