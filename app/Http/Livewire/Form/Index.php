@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Form;
 
+use App\Models\EditRemark;
 use App\Models\Form;
 use App\Models\FormHistory;
 use App\Models\PauseRemark;
@@ -40,6 +41,8 @@ class Index extends Component
 
     public $changesHistory = [];
 
+    public $editRemarks = [];
+
     public function mount($id)
     {
         $this->formId = $id;
@@ -53,7 +56,8 @@ class Index extends Component
         $this->fillIntialForm($this->persistedAnswers);
 
         if($this->mode === 'traces'){
-            $this->changesHistory = FormHistory::whereIn('answer_id',$this->persistedAnswers->pluck('id')->toArray())->get();
+            $this->changesHistory = FormHistory::whereIn('answer_id',$this->persistedAnswers->pluck('id')->toArray())->with('user')->get();
+            $this->editRemarks = EditRemark::where('form_id',$this->formId)->get();
         }   
     }
 

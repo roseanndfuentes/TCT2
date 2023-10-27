@@ -6,6 +6,7 @@ use App\Models\Form;
 use Livewire\Component;
 use WireUi\Traits\Actions;
 use App\Models\ActivityLog;
+use App\Models\EditRemark;
 use App\Models\FormHistory;
 use App\Models\TaskQuestion;
 use Illuminate\Support\Facades\DB;
@@ -29,6 +30,9 @@ class Edit extends Component
     public $persistedAnswers = [];
 
     public $answersForm = [];
+
+
+    public $remarks = "";
 
     public function fillIntialForm()
     {
@@ -57,6 +61,16 @@ class Edit extends Component
             $this->dialog()->error('You are not authorized to update this form');
             return;
         }
+        $this->validate([
+            'remarks'=>'required'
+        ]);
+
+        $remark = EditRemark::create([
+            'form_id'=> $this->formId,
+            'message'=> $this->remarks,
+        ]);
+
+
         foreach ($this->answersForm as $key => $value) {
                 $newEntry = $this->form->answers()->updateOrCreate([
                     'question_id' => $key,
@@ -67,22 +81,9 @@ class Edit extends Component
                 $oldData =  $this->persistedAnswers->find($newEntry->id);
                 $contentHasBeenChange = $oldData->content !== $value;
                 if($contentHasBeenChange){
-                    $this->recordChangeHistory($newEntry->id,$oldData->content);
+                    $this->recordChangeHistory($newEntry->id,$oldData->content,$remark->id);
                 }
         }
-        // foreach ($this->answersForm as $key => $value) {
-        //     $oldData =  $this->persistedAnswers->where('',$key);
-        //     $contentHasBeenChange = $oldData->content !== $value;
-        //     if($contentHasBeenChange){
-        //         recordChangeHistory($oldData->id);
-        //     }
-        //     $this->form->answers()->updateOrCreate([
-        //         'question_id' => $key,
-        //     ], [
-        //         'content' => $value,
-        //         'form_id' => $this->formId,
-        //     ]);
-        // }
 
         ActivityLog::create([
             'user_id'=>auth()->user()->id,
@@ -95,11 +96,13 @@ class Edit extends Component
         $this->notification()->success('Form updated successfully');
     }
 
-    function recordChangeHistory($answerId,$oldValue,$inputKey = 'Default'){
+    function recordChangeHistory($answerId,$oldValue,$remarkId,$inputKey = 'Default'){
         FormHistory::create([
+            'user_id' => auth()->user()->id,
             'answer_id'=>$answerId,
             'old_data'=>$oldValue,
             'input_key'=>$inputKey,
+            'remark_id'=>$remarkId
         ]);
     }
 }

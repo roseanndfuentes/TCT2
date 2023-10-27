@@ -11,13 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('form_histories', function (Blueprint $table) {
+        Schema::create('edit_remarks', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('remark_id');
-            $table->unsignedBigInteger('answer_id');
-            $table->string('input_key')->nullable();
-            $table->string('old_data');
+            $table->unsignedBigInteger('form_id');
+            $table->text('message');
             $table->timestamps();
         });
     }
@@ -27,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('form_histories');
+        Schema::dropIfExists('edit_remarks');
     }
 };

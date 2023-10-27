@@ -84,9 +84,22 @@
                                     $trace = $changesHistory->where('answer_id', $answersForm[$question->id]['answer_id']);
                                 @endphp
                                 @forelse ($trace->reverse() as $item)
+                                    @php
+                                        $remark = $editRemarks->find($item->remark_id);
+                                    @endphp
                                     <div>
-                                        <span class="text-xs">Changed at :
-                                            {{ date('M d, y H:i A', strtotime($item->created_at)) }}</span>
+                                        <div class="flex space-x-2 items-center">
+                                            <div>
+                                                <span class="text-xs">Changed at :
+                                                    {{ date('M d, y H:i A', strtotime($item->created_at)) }} by
+                                                    {{ $item->user->name }}
+                                                </span>
+                                            </div>
+                                            <x-hover-card remarks="{{ $remark->message }}">
+                                                <span class="cursor-pointer underline text-xs text-blue-600">See
+                                                    remark</span>
+                                            </x-hover-card>
+                                        </div>
                                         <pre class="border bg-gray-50 text-xs flex space-x-1 rounded-lg p-2">
                                     <span>{{ $item->old_data }}</span>
                                 </pre>

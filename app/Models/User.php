@@ -91,4 +91,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(ActivityLog::class);
     }
+
+    public function formHistories()
+    {
+        return $this->hasMany(FormHistory::class);
+    }
 }

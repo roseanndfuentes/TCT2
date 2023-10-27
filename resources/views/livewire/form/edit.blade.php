@@ -16,6 +16,9 @@
             </x-card>
         </div>
     @endforeach
+    <div>
+        <x-textarea label="Remarks" wire:model.defer="remarks" />
+    </div>
     <div class="flex items-center space-x-3">
         <x-primary-button wire:click="update" wire:loading.attr="disabled">
             <span wire:loading.remove wire:target="update">Update</span>
