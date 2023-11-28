@@ -12,17 +12,70 @@
             </span>
         </div>
     </x-slot:title>
-    <div>
-        <h3 class="text-xl font-semibold leading-6 text-gray-900">
-            Statistic Overview
-        </h3>
-        <div>
-            @livewire('dashboard.statistics-overview')
+
+
+    <div x-data="{
+        tabSelected: 1,
+        tabId: $id('tabs'),
+        tabButtonClicked(tabButton) {
+            this.tabSelected = tabButton.id.replace(this.tabId + '-', '');
+            this.tabRepositionMarker(tabButton);
+        },
+        tabRepositionMarker(tabButton) {
+            this.$refs.tabMarker.style.width = tabButton.offsetWidth + 'px';
+            this.$refs.tabMarker.style.height = tabButton.offsetHeight + 'px';
+            this.$refs.tabMarker.style.left = tabButton.offsetLeft + 'px';
+        },
+        tabContentActive(tabContent) {
+            return this.tabSelected == tabContent.id.replace(this.tabId + '-content-', '');
+        }
+    }" x-init="tabRepositionMarker($refs.tabButtons.firstElementChild);" class="relative w-full max-full">
+
+        <div x-ref="tabButtons"
+            class="relative inline-grid items-center justify-center w-full  h-10 grid-cols-3 p-1 border border-gray-200 text-gray-500 bg-gray-100 rounded-lg select-none">
+            <button :id="$id(tabId)" @click="tabButtonClicked($el);" type="button"
+                class="relative z-20 inline-flex items-center justify-center w-full h-8 px-3 text-sm font-medium transition-all rounded-md cursor-pointer whitespace-nowrap">Statistic
+                Overview</button>
+            <button :id="$id(tabId)" @click="tabButtonClicked($el);" type="button"
+                class="relative z-20 inline-flex items-center justify-center w-full h-8 px-3 text-sm font-medium transition-all rounded-md cursor-pointer whitespace-nowrap">Productivity</button>
+            <button :id="$id(tabId)" @click="tabButtonClicked($el);" type="button"
+                class="relative z-20 inline-flex items-center justify-center w-full h-8 px-3 text-sm font-medium transition-all rounded-md cursor-pointer whitespace-nowrap">Breakdown</button>
+            <div x-ref="tabMarker" class="absolute left-0 z-10 w-1/2 h-full duration-300 ease-out" x-cloak>
+                <div class="w-full h-full bg-white rounded-md shadow-sm"></div>
+            </div>
         </div>
-        <div class="mt-5 grid grid-cols-12">
-            <div class="sm:col-span-8">
-                @livewire('charts.last-seven-day-chart')
+        <div class="relative w-full mt-2 content">
+            <div :id="$id(tabId + '-content')" x-show="tabContentActive($el)" class="relative">
+                <!-- Tab Content 1 - Replace with your content -->
+                <div>
+                    <div>
+                        @livewire('dashboard.statistics-overview')
+                    </div>
+                    <div class="mt-5 grid grid-cols-12">
+                        <div class="sm:col-span-8">
+                            @livewire('charts.last-seven-day-chart')
+                        </div>
+                    </div>
+                </div>
+                <!-- End Tab Content 1 -->
+            </div>
+
+            <div :id="$id(tabId + '-content')" x-show="tabContentActive($el)" class="relative" x-cloak>
+                <!-- Tab Content 2 - Replace with your content -->
+                <div class="mt-5">
+                    @livewire('dashboard.productivity')
+                </div>
+                <!-- End Tab Content 2 -->
+            </div>
+
+            <div :id="$id(tabId + '-content')" x-show="tabContentActive($el)" class="relative" x-cloak>
+                <!-- Tab Content 3 - Replace with your content -->
+
+                <!-- End Tab Content 2 -->
             </div>
         </div>
     </div>
+
+
+
 </x-admin-layout>

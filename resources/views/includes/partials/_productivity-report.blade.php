@@ -15,7 +15,7 @@
         </thead>
     @endif
     <tbody>
-        <td colspan="2" class="py-3 px-4  border border-gray-200 border-b-indigo-600">
+        {{-- <td colspan="2" class="py-3 px-4  border border-gray-200 border-b-indigo-600">
             <div class="flex space-x-3">
                 <div class="flex items-center space-x-5 ">
                     <div class="flex items-center space-x-1">
@@ -36,7 +36,7 @@
                     </div>
                 </div>
             </div>
-        </td>
+        </td> --}}
         <x-tct.productivity-row wire:key="total-productivity-percentage" label="TOTAL PRODUCTIVITY PERCENTAGE"
             value="{{ number_format($oaasProductivityPercentage + $adminProductivityPercentage, 2) }} %" />
         <x-tct.productivity-row wire:key="oaas-productivity-percentage" label="OAAS PRODUCTIVITY PERCENTAGE"
