@@ -88,7 +88,6 @@ class Productivity extends Component
 				->where('forms.submitted_by', $this->selected->id)
 				->get();
 
-
 			$totalLeaveInMins = $this->selected->leaves()->whereDate('created_at', '>=', $this->weekStart)
 				->whereDate('created_at', '<=', $this->weekEnd)->sum('computed_minutes');
 			$this->totalLeave = $totalLeaveInMins;
@@ -129,6 +128,7 @@ class Productivity extends Component
 
 	public function render()
 	{
+		$this->getSubmittedForms();
 		return view('livewire.dashboard.productivity');
 	}
 }

@@ -111,10 +111,13 @@
                 $totalTimeSpent = $selected ? $submittedForms->where('segment_id', $segment->id)->sum('total_time_spent') : 0;
             @endphp
             <x-tct.productivity-row pre-label="Total Time Spent " wire:key="total-time-spent-{{ $segment->id }}"
-                label="({{ $segment->company->name }}-{{ $segment->name }})" value="{{ $totalTimeSpent }} mins" />
+                label="({{ $segment->company->name }}-{{ $segment->name }})"
+                value="{{ number_format($totalTimeSpent / 60, 2) }} mins" />
         @endforeach
-        <x-tct.productivity-row wire:key="holidays" label="Holidays" value="{{ $holidayTotalMinutes }} mins" />
-        <x-tct.productivity-row wire:key="total-leave" label="Total Leave" value="{{ $totalLeave }} mins" />
+        <x-tct.productivity-row wire:key="holidays" label="Holidays"
+            value="{{ number_format($holidayTotalMinutes / 60, 2) }} mins" />
+        <x-tct.productivity-row wire:key="total-leave" label="Total Leave"
+            value="{{ number_format($totalLeave / 60, 2) }} mins" />
         <x-tct.productivity-row wire:key="expected-total-time-spent" label="Expected Total Time Spent"
             value="{{ $totalTimeSpentInMins }} mins" />
     </tbody>

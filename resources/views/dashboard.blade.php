@@ -70,7 +70,7 @@
 
             <div :id="$id(tabId + '-content')" x-show="tabContentActive($el)" class="relative" x-cloak>
                 <!-- Tab Content 3 - Replace with your content -->
-
+                @livewire('dashboard.breakdown')
                 <!-- End Tab Content 2 -->
             </div>
         </div>
