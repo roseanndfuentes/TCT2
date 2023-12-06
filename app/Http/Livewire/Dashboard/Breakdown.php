@@ -29,7 +29,7 @@ class Breakdown extends Component
 	public $submittedForms = [];
 	public $adminProductivitySegmentCollectionIds = [];
 	
-	public $holidayTotalMinutes = [];
+	public $holidayTotalMinutes = 0;
 	public $totalTimeSpentInMins  = 0;
 
 	public $totalMinsInAWeek = 2250;
